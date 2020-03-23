@@ -15,8 +15,8 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	print("Number of differents states = " + str(len(states)))
 
 	# Display all the states
-	for i in range(len(states)):
-		print(states[i])
+	#for i in range(len(states)):
+	#	print(states[i])
 
 	# Create an empty transition matrix
 	tMatrix = [[' ' for i in range(len(states))] for i in range(len(states))]
@@ -54,10 +54,13 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 					# Under conditions that :
 					#  - Anoter person is infected
 					#  - They know each other
+					tmp = ''
 					for l in range(len(state1)):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == 1:
-								tMatrix[i][k] += '(1-b)'
+								tmp += 'b'
+					if len(tmp) != 0:
+						tMatrix[i][j] += ('(1-' + str(tmp) + ')')
 				elif state1[k] == 'S' and state2[k] == 'S':
 					tMatrix[i][j] += '(b)'
 				elif state1[k] == 'I' and state2[k] == 'I':
