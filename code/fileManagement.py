@@ -1,18 +1,18 @@
-# Fonctions relatives à la gestion de fichiers.
+# Module to manage files.
 
-# Charge la matrice carrée de taille size * size contenue dans le fichier fileName et retourne
-# la matrice correspondante.
-def loadSquareMatrix(fileName, size):
+# Load the square matrix (size * size) which is in the file fileName and return the corresponding
+# matrix.
+def load_square_matrix(fileName, size):
 
     matrix = [[0 for i in range(size)] for i in range(size)]
 
-    # Remplissage de la matrice
+    # Filling of the matrix
     with open(fileName, 'r', encoding = 'utf-8') as f:
         for i in range(size):
             for j in range(size):
                 matrix[i][j] = f.read(1)
                 f.read(1)
-            # Afficher la matrice pour test
+            # Display the matrix
             #     print(matrix[i][j], ',', end = '') 
             # print("\n")
     return matrix

@@ -1,5 +1,6 @@
-# Fonction qui permet d'obtenir la matrice de transition sur base de W et de N
+# Module to get the transition matrix using W and N
 
+# Fonction to compute the transition matrix using the adjacency matrix and the population size.
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	if(len(adjacencyMatrix) != populationSize):
@@ -74,8 +75,8 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	return tMatrix
 
-# Fonction qui permet d'obtenir les états possibles de la chaine lorsqu'on rajoute un
-# individu à la chaine originalSequence
+# Function to obtain the possible states of the chain when adding an individual to the chain
+# originalSequence
 def compute_states(originalSequence):
 
 	basicSequence = ['S', 'I', 'R']
