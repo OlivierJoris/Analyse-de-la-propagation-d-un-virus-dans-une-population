@@ -49,16 +49,16 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 				# All cases
 				if state1[k] == 'I' and state2[k] == 'S':
-					tMatrix[i][j] = 0
+					tMatrix[i][j] = '0'
 					break
 				elif state1[k] == 'R' and state2[k] == 'I':
-					tMatrix[i][j] = 0
+					tMatrix[i][j] = '0'
 					break
 				elif state1[k] == 'S' and state2[k] == 'R':
-					tMatrix[i][j] = 0
+					tMatrix[i][j] = '0'
 					break
 				elif state1[k] == 'R' and state2[k] == 'S':
-					tMatrix[i][j] = 0
+					tMatrix[i][j] = '0'
 					break
 				elif state1[k] == 'S' and state2[k] == 'I':
 					# Under conditions that :
@@ -69,6 +69,9 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 							if adjacencyMatrix[l][k] == '1':
 								tMatrix[i][j] += 'b'
 								break
+							elif adjacencyMatrix[l][k] == '0':
+								tMatrix[i][j] += '0'
+								break
 				elif state1[k] == 'S' and state2[k] == 'S':
 					tMatrix[i][j] += '(1-b)'
 				elif state1[k] == 'I' and state2[k] == 'I':
@@ -78,7 +81,14 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 				elif state1[k] == 'R' and state2[k] == 'R':
 					tMatrix[i][j] += '(1)'
 
+	# Verify
+	for i in range(len(states)):
+		for j in range(len(states)):
+			tmpString = tMatrix[i][j]
+			if isinstance(tmpString, str) and '0' in tmpString:
+				tMatrix[i][j] = 0
 
+	# Display the transition matrix
 	print("   ", end=" ")
 	for i in range(len(states)):
 		print(states[i], end=" | ")
