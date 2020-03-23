@@ -1,6 +1,5 @@
 # Module to get the transition matrix using W and N
 
-# Fonction to compute the transition matrix using the adjacency matrix and the population size.
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	if(len(adjacencyMatrix) != populationSize):
