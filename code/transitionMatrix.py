@@ -1,4 +1,4 @@
-# Fonction qui permet d'obtenir la matrice de transition sur base de W et de N
+# Module to get the transition matrix using W and N
 
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 

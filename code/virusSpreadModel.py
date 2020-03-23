@@ -1,14 +1,14 @@
-# Fonctions relatives au modèle de propagation du virus.
+# Module relative to the spread model of the virus.
 import random
 
-# Charge une configuration initiale avec 1 infecté et une probabilité de 1 / peopleNumber d'être 
-# ce premier infecté de la population. 
-def loadInitialConfiguration(peopleNumber):
+# Load an initial configuration with 1 infected and a 1 / populationSize probability to be this 
+# first infected of the population.
+def load_initial_configuration(populationSize):
 
-    initialConfiguration = ['S' for i in range(peopleNumber)]
+    initialConfiguration = ['S' for i in range(populationSize)]
 
     random.seed()
-    randNumber = random.randint(0, peopleNumber - 1)
+    randNumber = random.randint(0, populationSize - 1)
     initialConfiguration[randNumber] = 'I'
 
     return initialConfiguration

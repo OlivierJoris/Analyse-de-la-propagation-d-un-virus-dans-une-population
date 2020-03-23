@@ -1,4 +1,4 @@
-# Fichier principal.
+# Main module.
 
 import sys, fileManagement, virusSpreadModel, transitionMatrix
 
@@ -7,26 +7,26 @@ if len(sys.argv) != 3:
           "fichier_contenant_la_matrice_d'adjacence")
     exit(-1)
 
-peopleNumber = int(sys.argv[1])
+populationSize = int(sys.argv[1])
 fileName = sys.argv[2]
 
-adjacencyMatrix = fileManagement.loadSquareMatrix(fileName, peopleNumber) # Chargement de la
-# matrice d'adjacence w (cf. énoncé)
+adjacencyMatrix = fileManagement.load_square_matrix(fileName, populationSize) # Loading of the
+# adjacency matrix W (see statement)
 
-# Afficher la matrice pour test
-# for i in range(peopleNumber):
-#     for j in range(peopleNumber):
+# Display the matrix
+# for i in range(populationSize):
+#     for j in range(populationSize):
 #         print(adjacencyMatrix[i][j], ',', end = '')
 #     print("\n")
 
-initialConfiguration = virusSpreadModel.loadInitialConfiguration(peopleNumber)
-infectionProbability = 0.5 # Probabilité beta (cf. énoncé)
-healProbability = 0.2 # Probabilité mu (cf. énoncé)
+initialConfiguration = virusSpreadModel.load_initial_configuration(populationSize)
+infectionProbability = 0.5 # Probability beta (see statement)
+healProbability = 0.2 # Probability mu (see statement)
 
-# Afficher la configuration initiale
-# for i in range(peopleNumber):
+# Display the initial configuration
+# for i in range(populationSize):
 #     print(initialConfiguration[i], ',')
 
-tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, peopleNumber)
+tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, populationSize)
 
 exit(0)
