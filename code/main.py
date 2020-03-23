@@ -1,6 +1,6 @@
 # Fichier principal.
 
-import sys, fileManagement, virusSpreadModel
+import sys, fileManagement, virusSpreadModel, transitionMatrix
 
 if len(sys.argv) != 3:
     print("Utilisation du programme : python3 main.py nombre_d'individus "
@@ -10,11 +10,11 @@ if len(sys.argv) != 3:
 peopleNumber = int(sys.argv[1])
 fileName = sys.argv[2]
 
-adjacencyMatrix = fileManagement.loadSquareMatrix(fileName, peopleNumber) # Chargement de la 
+adjacencyMatrix = fileManagement.loadSquareMatrix(fileName, peopleNumber) # Chargement de la
 # matrice d'adjacence w (cf. énoncé)
 
 # Afficher la matrice pour test
-# for i in range(peopleNumber): 
+# for i in range(peopleNumber):
 #     for j in range(peopleNumber):
 #         print(adjacencyMatrix[i][j], ',', end = '')
 #     print("\n")
@@ -26,5 +26,7 @@ healProbability = 0.2 # Probabilité mu (cf. énoncé)
 # Afficher la configuration initiale
 # for i in range(peopleNumber):
 #     print(initialConfiguration[i], ',')
+
+tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, peopleNumber)
 
 exit(0)
