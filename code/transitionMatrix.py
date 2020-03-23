@@ -57,9 +57,9 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 					for l in range(len(state1)):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == 1:
-								tMatrix[i][k] += '(b)'
+								tMatrix[i][k] += '(1-b)'
 				elif state1[k] == 'S' and state2[k] == 'S':
-					tMatrix[i][j] += '(1-b)'
+					tMatrix[i][j] += '(b)'
 				elif state1[k] == 'I' and state2[k] == 'I':
 					tMatrix[i][j] += '(1-u)'
 				elif state1[k] == 'I' and state2[k] == 'R':
@@ -75,7 +75,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	return tMatrix
 
 # Fonction qui permet d'obtenir les états possibles de la chaine lorsqu'on rajoute un
-#individu à la chaine originalSequence
+# individu à la chaine originalSequence
 def compute_states(originalSequence):
 
 	basicSequence = ['S', 'I', 'R']
