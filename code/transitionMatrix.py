@@ -12,7 +12,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	for i in range(populationSize - 1):
 		states = compute_states(states)
 
-	print("Number of differents states = " + str(len(states)))
+	print("Number of differents states = " + str(len(states)) + "\n")
 
 	# Display all the states
 	#for i in range(len(states)):
@@ -31,6 +31,16 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	for i in range(1, len(states)):
 		state1 = states[i]
+
+		# If the current state (state1) doesn't contained 'I' than we can only stay in the same state
+		if 'I' not in state1:
+			for q in range(len(states)):
+				if states[i] == states[q]:
+					tMatrix[i][q] = '1'
+				else:
+					tMatrix[i][q] = '0'
+			continue
+
 		for j in range(len(states)):
 
 			state2 = states[j]
