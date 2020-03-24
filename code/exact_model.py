@@ -3,8 +3,6 @@
 import sys, random
 import fileManagement, virusSpreadModel, transitionMatrix, graphics_generator
 
-NUMBER_OF_SIMULATIONS = 20 # Represents the number of simulations for question 3
-
 if len(sys.argv) != 4:
     print("Utilisation du programme : python3 main.py nombre_d'individus "
           "fichier_contenant_la_matrice_d'adjacence" "full|lin")
@@ -38,17 +36,25 @@ healProbability = 0.2 # Probability mu (see statement)
 # Compute the transition matrix
 tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, populationSize)
 
-#  *** Question 3 ***
+#  *** Question 3 & 4***
+
+NUMBER_OF_SIMULATIONS = int(input("Number of \"simulations\" for the proportions of S/T/I and the average time :"))
 
 susceptibleProportion = [0 for i in range(MAX_X)]
 infectedProportion = [0 for i in range(MAX_X)]
 curedProportion = [0 for i in range(MAX_X)]
+time = 0
 
 for i in range(NUMBER_OF_SIMULATIONS):
+
+	sys.stdout.write("\rSimulation n°%d/%d" % ((i+1), NUMBER_OF_SIMULATIONS))
+	sys.stdout.flush()
 
 	# One "simulation" of the model.
 	initialConfiguration = virusSpreadModel.load_initial_configuration(populationSize)
 	proportions = virusSpreadModel.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
+
+	time+=proportions[3]
 
 	# Saving the proportions.
 	if len(proportions[0]) < MAX_X:
@@ -74,11 +80,16 @@ for i in range(MAX_X):
 	infectedProportion[i]/=NUMBER_OF_SIMULATIONS
 	curedProportion[i]/=NUMBER_OF_SIMULATIONS
 
+# Calculate the average time
+time/=NUMBER_OF_SIMULATIONS
+
 #print("Susceptible proportion = " + str(susceptibleProportion))
 #print("Infected proportion = " + str(infectedProportion))
 #print("Cured proportion = " + str(curedProportion))
 
 # Generate the graphic
 graphics_generator.graphic(susceptibleProportion, infectedProportion, curedProportion, MAX_X, NUMBER_OF_SIMULATIONS)
+
+print("\nAverage time it takes for the virus to disappear completely : " + str(time))
 
 exit(0)

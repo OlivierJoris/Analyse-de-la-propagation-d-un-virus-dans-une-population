@@ -12,7 +12,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	for i in range(populationSize - 1):
 		states = compute_states(states)
 
-	print("Number of differents states = " + str(len(states)) + "\n")
+	#print("Number of differents states = " + str(len(states)) + "\n")
 
 	# Display all the states
 	#for i in range(len(states)):
