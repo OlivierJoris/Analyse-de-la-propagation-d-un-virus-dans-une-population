@@ -104,7 +104,7 @@ Pour répondre à cette question, le programme peut-être lancé à l'aide de la
 $ python3 exact_model.py matrixSize fileName wType 
 \end{lstlisting}
 
-où la première option spécifie la taille de la matrice $W$ utilisée, la deuxième représente le nom du fichier dans lequel cette matrice est encodée et la troisième permettant d'ajuster l'échelle du graphique en spécifiant si on a choisit une matrice $W_{big}$ ou $W_{lin}$\footnote{A l'aide du mot-clé "lin" ou "full"}. Ensuite, le programme demande à l'utilisateur sur combien de simulations celui-ci veut que les calculs soient effectués.\\
+où la première option spécifie la taille de la matrice $W$ utilisée, la deuxième représente le nom du fichier dans lequel cette matrice est encodée et la troisième permettant d'ajuster l'échelle du graphique en spécifiant si on a choisit une matrice $W_{big}$ ou $W_{lin}$\footnote{A l'aide du mot-clé \texttt{lin} ou \texttt{full}}. Ensuite, le programme demande à l'utilisateur sur combien de simulations celui-ci veut que les calculs soient effectués.\\
 
 Ainsi, en lançant le programme avec cette commande :
 
@@ -140,6 +140,7 @@ Sur la figure 2, on observe, à l'inverse de la situation précédente, que la p
 
 \subsection{Question 4}
 
+Lors de l'exécution des deux précédentes commandes, le programme nous retourne également le temps moyen nécessaire à la disparition du virus dans la population. On observe que le premier modèle\footnote{Celui dont la matrice d'adjacence est $W_{lin}$} nécessite un temps supérieur au second. Cela peut sembler étrange à première vue mais quand on y réfléchi, cela devient compréhensible. En effet, les individus suivant le premier modèle de propagation n'ayant pas beaucoup de contacts, la transmission du virus existe quand même mais est plus lente. A l'opposé, celle des individus suivant le second modèle est plus rapide car une fois qu'ils sont tous contaminés\footnote{Ce qui arrive assez vite.}, ils ne peuvent que guérir.
 
 	
 \end{document}
