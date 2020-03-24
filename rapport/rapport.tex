@@ -104,7 +104,7 @@ Pour répondre à cette question, le programme peut-être lancé à l'aide de la
 $ python3 exact_model.py matrixSize fileName wType 
 \end{lstlisting}
 
-où la première option spécifie la taille de la matrice $W$ utilisée, la deuxième représente le nom du fichier dans lequel cette matrice est encodée et la troisième permettant d'ajuster l'échelle du graphique en spécifiant si on a choisit une matrice $W_{big}$ ou $W_{lin}$\footnote{A l'aide du mot-clé \texttt{lin} ou \texttt{full}}. Ensuite, le programme demande à l'utilisateur sur combien de simulations celui-ci veut que les calculs soient effectués.\\
+où la première option spécifie la taille de la matrice $W$ utilisée, la deuxième représente le nom du fichier dans lequel cette matrice est encodée et la troisième permettant d'ajuster l'échelle du graphique en spécifiant si on a choisi une matrice $W_{big}$ ou $W_{lin}$\footnote{A l'aide du mot-clé \texttt{lin} ou \texttt{full}.}. Ensuite, le programme demande à l'utilisateur sur combien de simulations celui-ci veut que les calculs soient effectués.\\
 
 Ainsi, en lançant le programme avec cette commande :
 
@@ -120,7 +120,7 @@ On obtient ce graphique répondant à la première partie de la question avec le
 	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice $W_{lin}$.}
 \end{figure}
 
-Sur la figure 1, on observe le fait que la proportion d'individus infectés ne cesse de diminuer. En effet, les individus ayant peu de contacts les uns avec les autres, la probabilité qu'un individu soit infecté tend vers 0. De plus, les individus infectés initialement finissent par guérir.\\
+Sur la figure 1, on observe le fait que la proportion d'individus infectés est décroissante. En effet, les individus ayant peu de contacts les uns avec les autres, la probabilité qu'un individu soit infecté est faible. De plus, les individus initialement infectés finissent par guérir.\\
 
 De la même façon en lançant le programme à l'aide de cette commande :
 
@@ -136,11 +136,11 @@ On obtient ce graphique répondant à la deuxième partie de la question avec le
 	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice $W_{full}$.}
 \end{figure}
 
-Sur la figure 2, on observe, à l'inverse de la situation précédente, que la population connaît un nombre important d'infectés. Au temps t = 25, on peut voir que la proportion d'individus susceptibles est proche de 0, c'est-à-dire que toute la population a été infecté. En effet, les individus ayant tous des contacts les uns avec les autres, le virus ne fait que se propager au sein de la population jusqu'à ce que celle-ci soit entièrement guérie.
+Sur la figure 2, on observe, à l'inverse de la situation précédente, que la population connaît un nombre important d'infectés. Au temps t = 25, on peut voir que la proportion d'individus susceptibles est proche de 0, c'est-à-dire que presque toute la population a été infecté à un instant inférieur ou égal à celui-ci. En effet, les individus ayant tous des contacts les uns avec les autres, le virus ne fait que se propager au sein de la population jusqu'à ce que celle-ci soit entièrement guérie.
 
 \subsection{Question 4}
 
-Lors de l'exécution des deux précédentes commandes, le programme nous retourne également le temps moyen nécessaire à la disparition du virus dans la population. On observe que le premier modèle\footnote{Celui dont la matrice d'adjacence est $W_{lin}$} nécessite un temps supérieur au second. Cela peut sembler étrange à première vue mais quand on y réfléchi, cela devient compréhensible. En effet, les individus suivant le premier modèle de propagation n'ayant pas beaucoup de contacts, la transmission du virus existe quand même mais est plus lente. A l'opposé, celle des individus suivant le second modèle est plus rapide car une fois qu'ils sont tous contaminés\footnote{Ce qui arrive assez vite.}, ils ne peuvent que guérir.
+Lors de l'exécution des deux précédentes commandes, le programme nous retourne également le temps moyen nécessaire à la disparition du virus dans la population. On observe que le premier modèle\footnote{Celui dont la matrice d'adjacence est $W_{lin}$.} nécessite un temps supérieur au second. Cela peut sembler étrange à première vue mais quand on y réfléchit, cela devient compréhensible. En effet, les individus suivant le premier modèle de propagation n'ayant pas beaucoup de contacts, la transmission du virus existe quand même mais est plus lente. A l'opposé, celle des individus suivant le second modèle est plus rapide car une fois qu'ils sont tous contaminés\footnote{Ce qui arrive assez vite.}, ils ne peuvent que guérir.
 
 	
 \end{document}
