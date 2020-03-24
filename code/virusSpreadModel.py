@@ -3,6 +3,8 @@
 import random, numpy, transitionMatrix
 import matplotlib.pyplot as plt
 
+DISPLAY_GRAPHIC = False
+
 # Load an initial configuration with 1 infected and a 1 / populationSize probability to be this
 # first infected of the population.
 def load_initial_configuration(populationSize):
@@ -24,9 +26,9 @@ def load_initial_configuration(populationSize):
 # someone who's infected (beta), and the probability of being cure if we're infected (mu)
 def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 
-	print("** Entering virus_evolution function **")
+	#print("** Entering virus_evolution function **")
 
-	print("Initial state is : " + initialState)
+	#print("Initial state is : " + initialState)
 
 	states = ['S', 'I', 'R']
 
@@ -103,16 +105,20 @@ def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 		curedProportion.append(proportions[2])
 		counter+=1
 
-	xAxis = list(range(0, counter+1))
+	#print("Counter value = " + str(counter))
 
-	plt.plot(xAxis, susceptibleProportion, label = "Susceptible proportion", color = "blue")
-	plt.plot(xAxis, infectedProportion, label = "Infected proportion", color = "red")
-	plt.plot(xAxis, curedProportion, label = "Cured proportion", color = "green")
-	plt.ylabel("Proportion")
-	plt.xlabel("Time")
-	plt.title("Evolution")
-	plt.legend()
-	plt.show()
+	if DISPLAY_GRAPHIC:
+
+		xAxis = list(range(0, counter+1))
+
+		plt.plot(xAxis, susceptibleProportion, label = "Susceptible proportion", color = "blue")
+		plt.plot(xAxis, infectedProportion, label = "Infected proportion", color = "red")
+		plt.plot(xAxis, curedProportion, label = "Cured proportion", color = "green")
+		plt.ylabel("Proportion")
+		plt.xlabel("Time")
+		plt.title("Evolution")
+		plt.legend()
+		plt.show()
 
 	return (susceptibleProportion, infectedProportion, curedProportion)
 
