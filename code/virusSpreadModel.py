@@ -105,7 +105,7 @@ def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 		curedProportion.append(proportions[2])
 		counter+=1
 
-	#print("Counter value = " + str(counter))
+	print("Counter value = " + str(counter))
 
 	if DISPLAY_GRAPHIC:
 
