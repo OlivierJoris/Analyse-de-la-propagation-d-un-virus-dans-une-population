@@ -29,4 +29,6 @@ healProbability = 0.2 # Probability mu (see statement)
 
 tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, populationSize)
 
+virusSpreadModel.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
+
 exit(0)

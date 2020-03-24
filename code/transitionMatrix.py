@@ -67,19 +67,19 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 					for l in range(len(state1)):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == '1':
-								tMatrix[i][j] += 'b'
+								tMatrix[i][j] += 'b*'
 								break
 							elif adjacencyMatrix[l][k] == '0':
 								tMatrix[i][j] += '0'
 								break
 				elif state1[k] == 'S' and state2[k] == 'S':
-					tMatrix[i][j] += '(1-b)'
+					tMatrix[i][j] += '(1-b)*'
 				elif state1[k] == 'I' and state2[k] == 'I':
-					tMatrix[i][j] += '(1-u)'
+					tMatrix[i][j] += '(1-u)*'
 				elif state1[k] == 'I' and state2[k] == 'R':
-					tMatrix[i][j] += '(u)'
+					tMatrix[i][j] += '(u)*'
 				elif state1[k] == 'R' and state2[k] == 'R':
-					tMatrix[i][j] += '(1)'
+					tMatrix[i][j] += '(1)*'
 
 	# Verify
 	for i in range(len(states)):
@@ -87,17 +87,19 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 			tmpString = tMatrix[i][j]
 			if isinstance(tmpString, str) and '0' in tmpString:
 				tMatrix[i][j] = 0
+			elif isinstance(tmpString, str) and tmpString.endswith('*'):
+				tMatrix[i][j] = tmpString[0:(len(tmpString)-1)]
 
 	# Display the transition matrix
-	print("   ", end=" ")
-	for i in range(len(states)):
-		print(states[i], end=" | ")
-	print("\n")
-	for i in range(len(states)):
-		print(states[i], end=" | ")
-		for j in range(len(states)):
-			print(tMatrix[i][j], end=" | ")
-		print("\n")
+	#print("   ", end=" ")
+	#for i in range(len(states)):
+	#	print(states[i], end=" | ")
+	#print("\n")
+	#for i in range(len(states)):
+	#	print(states[i], end=" | ")
+	#	for j in range(len(states)):
+	#		print(tMatrix[i][j], end=" | ")
+	#	print("\n")
 
 	return tMatrix
 
