@@ -27,7 +27,8 @@
 
 %%%% Page de garde %%%%
 
-\title{Processus stochastiques}
+\title{\textbf{Introduction aux processus stochastiques}\\
+	   Analyse de propagation d'un virus dans un réseau}
 \author{Maxime GOFFART \\180521 \and Olivier JORIS\\182113}
 \date{Année académique 2019 - 2020}
 
@@ -39,4 +40,26 @@
 \tableofcontents
 \newpage
 
+\section{Introduction}
+
+Les processus stochastiques permettent d'étudier des phénomènes aléatoires dans divers secteurs : l'économie, la climatologie, la météorologie, la biologie, \dotso
+
+En particulier dans ce projet, il nous a été demandé d'étudier un phénomène d'actualité : la propagation d'un virus au sein d'un réseau, pouvant peut être modélisé à l'aide d'une chaîne de Markov. Ainsi, ce projet nous a permis d'appliquer les concepts vus au cours sur un exemple concret et d'actualité.
+
+\section{Structure du programme} % je ne sais pas si on la met maintenant ou après
+
+\section{Etude du modèle exact}
+
+\subsection{Question 1}
+	
+	Le modèle proposé dans l'énoncé est bien un processus de Markov en temps discret caractérisé par ses $3^N$ états ($N$ étant la taille de la population). Les états de cette chaînes sont caractérisés par la suite de longueur $N$ des catégories (S, R ou I) auquel appartiennent les individus (les individus étant indexés de 1 à N) à l'instant t. Par exemple : pour $N = 3$, l'état "'S' 'I' 'I'" représente le fait que le premier individu est susceptible d'être infecté et que les deux derniers sont infectés.
+	
+	 Les probabilités de transitions d'un état à celui de l'instant suivant de la chaîne dépendent à la fois de chacune des catégories des individus à l'instant initial et de leurs interactions avec des personnes infectées (modélisées par le graphe $W$).
+	
+	Les états de cette chaîne qui sont uniquement composés d'individus de la catégorie 'R' ou\footnote{Il s'agit d'un "ou" inclusif.} de la catégorie 'S' sont absorbants car la propagation du virus n'est plus possible s'il n'y a plus d'infectés. Il en va de même pour les états dans lesquels les infectés n'ont de contact avec personne\footnote{Cela correspond à une ligne remplie de 0 dans le graphe $W$.}. Cette chaîne n'est donc ni irréductible, ni régulière, ni périodique.
+
+\subsection{Question 2}
+
+Il faudra en moyenne ... à un individu pour guérir une fois infecté.
+	
 \end{document}
