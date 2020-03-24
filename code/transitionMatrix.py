@@ -1,4 +1,4 @@
-# Module to get the transition matrix using W and N
+# Module to get the transition matrix using W and N and all the possible states
 
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 
@@ -103,7 +103,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	return tMatrix
 
-# Function to obtain the possible states of the chain when adding an individual to the chain
+# Function to obtain all the possible states of the chain when adding an individual to the chain
 # originalSequence
 def compute_states(originalSequence):
 
@@ -115,3 +115,18 @@ def compute_states(originalSequence):
 			newSequence.append(originalSequence[i] + basicSequence[j])
 
 	return newSequence
+
+# Function to determine if the situation of the population is stable or not based
+# on the current state of the population.
+# Return False if there're humains who are still infected and so the situation can still evolve.
+# Else return True.
+def stable_situation(currentState):
+
+	stableSituation = True
+
+	for i in range(len(currentState)):
+		if currentState[i] == 'I':
+			stableSituation = False
+			break
+
+	return stableSituation

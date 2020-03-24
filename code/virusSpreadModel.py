@@ -1,11 +1,12 @@
 # Module relative to the spread model of the virus.
+
 import random, numpy, transitionMatrix
+import matplotlib.pyplot as plt
 
 # Load an initial configuration with 1 infected and a 1 / populationSize probability to be this
 # first infected of the population.
 def load_initial_configuration(populationSize):
 
-	random.seed()
 	randNumber = random.randint(0, populationSize - 1)
 
 	initialConfiguration = ""
@@ -19,11 +20,11 @@ def load_initial_configuration(populationSize):
 	return initialConfiguration
 
 # Predict the spread of the virus based on the transition matrix, the population's size,
-# the initial state of the population, the probability of being infected with we meet
-# someone who's infected (beta), and the probability of being cure woth we're infected (mu)
+# the initial state of the population, the probability of being infected if we meet
+# someone who's infected (beta), and the probability of being cure if we're infected (mu)
 def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 
-	print(" ** Entering virus_evolution function **")
+	print("** Entering virus_evolution function **")
 
 	print("Initial state is : " + initialState)
 
@@ -33,46 +34,106 @@ def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 	for i in range(populationSize - 1):
 		states = transitionMatrix.compute_states(states)
 
-	# Get the line index inside the transition matrix of the original state
-	initialIndex = 0
-	for i in range(len(states)):
-		if states[i] == initialState:
-			initialIndex = i
-			break
+	currentState = initialState
 
-	print("The initial state is on line index : " + str(initialIndex) + " of the states list")
+	susceptibleProportion = []
+	infectedProportion = []
+	curedProportion = []
 
-	# Retrieve the correspond line inside the transition matrix
-	currentMatrixLine = tMatrix[initialIndex]
+	proportions = states_proportions(currentState)
 
-	#print(currentMatrixLine)
+	susceptibleProportion.append(proportions[0])
+	infectedProportion.append(proportions[1])
+	curedProportion.append(proportions[2])
 
-	# Defining b and u as the paramters of the method
-	b = beta
-	u = mu
+	counter = 0
 
-	# Replace b and u inside the transition matrix by the arguments of the method
-	# so we can determine the probabilities on the line that we're considering in the
-	# transition matrix
-	probabilities = []
-	for i in range(len(currentMatrixLine)):
-		probabilities.append(eval(str(currentMatrixLine[i])))
+	# Until the situation of the population is stable we apply the model.
+	while not(transitionMatrix.stable_situation(currentState)):
 
-	#print(probabilities)
+		# Get the line index inside the transition matrix of the current state.
+		currentIndex = 0
+		for i in range(len(states)):
+			if states[i] == currentState:
+				currentIndex = i
+				break
 
-	print("\nThe sum of the probabilities is equal to " + str(sum(probabilities)))
+		#print("The current state is on line index : " + str(currentIndex) + " of the states list")
 
-	# Compute the accumulated probabilities using the function cumsum of NumPy
-	cumProbabilities = numpy.cumsum(probabilities)
+		# Retrieve the correspond line inside the transition matrix.
+		currentMatrixLine = tMatrix[currentIndex]
 
-	# Draw a random float between 0 and 1 to determine the next state of the Markov chain
-	newRandom = random.uniform(0, 1.0)
+		#print(currentMatrixLine)
 
-	print("New random number between 0 and 1 : " + str(newRandom))
+		# Defining b and u as the parameters of the method.
+		b = beta
+		u = mu
 
-	# Determine the next step of the Markov chain using the newRandom
-	for i in range(len(cumProbabilities)):
-		if cumProbabilities[i] > newRandom:
-			print("\nThe rank of the new state is : " + str(i))
-			print("And so, the new state is : " + states[i])
-			break
+		# Replace b and u inside the transition matrix by the arguments of the method
+		# so we can determine the probabilities on the line that we're considering in the
+		# transition matrix.
+		probabilities = []
+		for i in range(len(currentMatrixLine)):
+			probabilities.append(eval(str(currentMatrixLine[i])))
+
+		#print(probabilities)
+
+		#print("The sum of the probabilities is equal to " + str(sum(probabilities)))
+
+		# Compute the accumulated probabilities using the function cumsum of NumPy.
+		cumProbabilities = numpy.cumsum(probabilities)
+
+		# Draw a random float between 0 and 1 to determine the next state of the Markov chain
+		newRandom = random.uniform(0, 1.0)
+
+		#print("New random number between 0 and 1 : " + str(newRandom))
+
+		# Determine the next state of the Markov chain using the newRandom.
+		for i in range(len(cumProbabilities)):
+			if cumProbabilities[i] > newRandom:
+				#print("\nThe rank of the new state is : " + str(i))
+				#print(states[i])
+				currentState = states[i]
+				break
+
+		proportions = states_proportions(currentState)
+
+		susceptibleProportion.append(proportions[0])
+		infectedProportion.append(proportions[1])
+		curedProportion.append(proportions[2])
+		counter+=1
+
+	xAxis = list(range(0, counter+1))
+
+	plt.plot(xAxis, susceptibleProportion, label = "Susceptible proportion", color = "blue")
+	plt.plot(xAxis, infectedProportion, label = "Infected proportion", color = "red")
+	plt.plot(xAxis, curedProportion, label = "Cured proportion", color = "green")
+	plt.ylabel("Proportion")
+	plt.xlabel("Time")
+	plt.title("Evolution")
+	plt.legend()
+	plt.show()
+
+	return (susceptibleProportion, infectedProportion, curedProportion)
+
+
+# Function which return the proportions of susceptible people, infected people,
+# and cured people
+def states_proportions(currentState):
+
+	susceptible = 0
+	infected = 0
+	cured = 0
+
+	populationSize = len(currentState)
+
+	for i in range(len(currentState)):
+
+		if currentState[i] == 'S':
+			susceptible+=1
+		elif currentState[i] == 'I':
+			infected+=1
+		elif currentState[i] == 'R':
+			cured+=1
+
+	return (susceptible/populationSize, infected/populationSize, cured/populationSize)

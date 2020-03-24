@@ -1,0 +1,115 @@
+Number of differents states = 729
+
+ ** Entering virus_evolution function **
+Initial state is : SISSSS
+The current state is on line index : 81 of the states list
+The sum of the probabilities is equal to 0.9999999999999997
+New random number between 0 and 1 : 0.514498299079396
+
+The rank of the new state is : 324
+And so, the new state is : IISSSS
+
+The current state is on line index : 324 of the states list
+The sum of the probabilities is equal to 0.9999999999999998
+New random number between 0 and 1 : 0.6242035286039523
+
+The rank of the new state is : 364
+And so, the new state is : IIIIII
+
+The current state is on line index : 364 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.24948049766778269
+
+The rank of the new state is : 364
+And so, the new state is : IIIIII
+
+The current state is on line index : 364 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.9226611892811777
+
+The rank of the new state is : 617
+And so, the new state is : RIIRIR
+
+The current state is on line index : 617 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.24049512398957662
+
+The rank of the new state is : 617
+And so, the new state is : RIIRIR
+
+The current state is on line index : 617 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.04077215191852801
+
+The rank of the new state is : 617
+And so, the new state is : RIIRIR
+
+The current state is on line index : 617 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.9043843678936415
+
+The rank of the new state is : 698
+And so, the new state is : RRIRIR
+
+The current state is on line index : 698 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.506015830466008
+
+The rank of the new state is : 698
+And so, the new state is : RRIRIR
+
+The current state is on line index : 698 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.06893767224662917
+
+The rank of the new state is : 698
+And so, the new state is : RRIRIR
+
+The current state is on line index : 698 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.13622846671207134
+
+The rank of the new state is : 698
+And so, the new state is : RRIRIR
+
+The current state is on line index : 698 of the states list
+The sum of the probabilities is equal to 1.0000000000000002
+New random number between 0 and 1 : 0.8420779942742244
+
+The rank of the new state is : 725
+And so, the new state is : RRRRIR
+
+The current state is on line index : 725 of the states list
+The sum of the probabilities is equal to 1.0
+New random number between 0 and 1 : 0.07643574172404943
+
+The rank of the new state is : 725
+And so, the new state is : RRRRIR
+
+The current state is on line index : 725 of the states list
+The sum of the probabilities is equal to 1.0
+New random number between 0 and 1 : 0.2498604264178621
+
+The rank of the new state is : 725
+And so, the new state is : RRRRIR
+
+The current state is on line index : 725 of the states list
+The sum of the probabilities is equal to 1.0
+New random number between 0 and 1 : 0.2502106185827935
+
+The rank of the new state is : 725
+And so, the new state is : RRRRIR
+
+The current state is on line index : 725 of the states list
+The sum of the probabilities is equal to 1.0
+New random number between 0 and 1 : 0.18581671316817516
+
+The rank of the new state is : 725
+And so, the new state is : RRRRIR
+
+The current state is on line index : 725 of the states list
+The sum of the probabilities is equal to 1.0
+New random number between 0 and 1 : 0.9453938240709358
+
+The rank of the new state is : 728
+And so, the new state is : RRRRRR

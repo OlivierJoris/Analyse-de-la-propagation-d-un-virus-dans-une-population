@@ -1,11 +1,13 @@
 # Main module.
 
-import sys, fileManagement, virusSpreadModel, transitionMatrix
+import sys, random, fileManagement, virusSpreadModel, transitionMatrix
 
 if len(sys.argv) != 3:
     print("Utilisation du programme : python3 main.py nombre_d'individus "
           "fichier_contenant_la_matrice_d'adjacence")
     exit(-1)
+
+random.seed()
 
 populationSize = int(sys.argv[1])
 fileName = sys.argv[2]
@@ -29,6 +31,11 @@ healProbability = 0.2 # Probability mu (see statement)
 
 tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, populationSize)
 
-virusSpreadModel.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
+
+proportions = virusSpreadModel.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
+
+print("Susceptible proportion = " + str(proportions[0]))
+print("Infected proportion = " + str(proportions[1]))
+print("Cured proportion = " + str(proportions[2]))
 
 exit(0)
