@@ -76,43 +76,42 @@
 
 \section{Introduction}
 
-Les processus stochastiques permettent d'étudier des phénomènes aléatoires dans divers secteurs : l'économie, la climatologie, la météorologie, la biologie, \dotso
+\paragraph{}Les processus stochastiques permettent d'étudier des phénomènes aléatoires dans divers secteurs : l'économie, la climatologie, la météorologie, la biologie, \dotso
 
-En particulier dans ce projet, il nous a été demandé d'étudier un phénomène d'actualité : la propagation d'un virus au sein d'un réseau, pouvant peut être modélisé à l'aide d'une chaîne de Markov. Ainsi, ce projet nous a permis d'appliquer les concepts vus au cours sur un exemple concret et d'actualité.
+\paragraph{}En particulier dans ce projet, il nous a été demandé d'étudier un phénomène d'actualité : la propagation d'un virus au sein d'un réseau, pouvant peut être modélisé à l'aide d'une chaîne de Markov. Ainsi, ce projet nous a permis d'appliquer les concepts vus au cours sur un exemple concret et d'actualité.
 
-\section{Structure du programme} % je ne sais pas si on la met maintenant ou après, j'attends qu'on ait la structure finale du programme pour la faire
+\section{Structure du programme} 
+\paragraph{}Je (max) le ferais plus tard tkt.
 
 \section{Etude du modèle exact}
 
 \subsection{Question 1}
 	
-	Le modèle proposé dans l'énoncé est bien un processus de Markov en temps discret caractérisé par ses $3^N$ états \footnote{$N$ étant la taille de la population.}. Les états de cette chaînes sont caractérisés par la suite de longueur $N$ des catégories \footnote{S, R ou I.} auxquelles appartiennent les individus \footnote{Les individus étant indexés de 1 à N.} à l'instant t. Par exemple : pour $N = 3$, l'état "'S' 'I' 'I'" représente le fait que le premier individu est susceptible d'être infecté et que les deux derniers sont infectés.
-	
-	 Les probabilités de transitions d'un état à un potentiel état de l'instant suivant de la chaîne dépendent à la fois de chacune des catégories des individus à l'instant initial et de leurs interactions avec des personnes infectées \footnote{Modélisées par le graphe $W$.}.
-	
-	Les états de cette chaîne qui sont uniquement composés d'individus de la catégorie 'R' ou\footnote{Il s'agit d'un "ou" inclusif.} de la catégorie 'S' sont absorbants car la propagation du virus n'est plus possible s'il n'y a plus d'infectés. Il en va de même pour les états dans lesquels les infectés n'ont de contact avec personne\footnote{Cela correspond à une ligne remplie de 0 dans le graphe $W$.}. Cette chaîne n'est donc ni irréductible, ni régulière, ni périodique.
+\paragraph{}Le modèle proposé dans l'énoncé est bien un processus de Markov en temps discret caractérisé par ses $3^N$ états \footnote{$N$ étant la taille de la population.}. Les états de cette chaînes sont caractérisés par la suite de longueur $N$ des catégories \footnote{S, R ou I.} auxquelles appartiennent les individus \footnote{Les individus étant indexés de 1 à N.} à l'instant t. Par exemple : pour $N = 3$, l'état "'S' 'I' 'I'" représente le fait que le premier individu est susceptible d'être infecté et que les deux derniers sont infectés.\\
+\indent Les probabilités de transitions d'un état à un potentiel état de l'instant suivant de la chaîne dépendent à la fois de chacune des catégories des individus à l'instant initial et de leurs interactions avec des personnes infectées \footnote{Modélisées par le graphe $W$.}.\\
+\indent Les états de cette chaîne qui sont uniquement composés d'individus de la catégorie 'R' ou\footnote{Il s'agit d'un "ou" inclusif.} de la catégorie 'S' sont absorbants car la propagation du virus n'est plus possible s'il n'y a plus d'infectés. Il en va de même pour les états dans lesquels les infectés n'ont de contact avec personne\footnote{Cela correspond à une ligne remplie de 0 dans le graphe $W$.}. Cette chaîne n'est donc ni irréductible, ni régulière, ni périodique.
 
 \subsection{Question 2}
 
-Il faudra en moyenne ... à un individu pour guérir une fois infecté.
+\paragraph{}Il faudra en moyenne ... à un individu pour guérir une fois infecté.
 
 \subsection{Question 3}
 
-Pour répondre à cette question, le programme peut-être lancé à l'aide de la commande suivante :
+\paragraph{}Pour répondre à cette question, le programme peut-être lancé à l'aide de la commande suivante :
 
 \begin{lstlisting}[language=bash]
-$ python3 exact_model.py matrixSize fileName wType 
+$ python3 exact_model.py matrixSize fileName
 \end{lstlisting}
 
-où la première option spécifie la taille de la matrice $W$ utilisée, la deuxième représente le nom du fichier dans lequel cette matrice est encodée et la troisième permettant d'ajuster l'échelle du graphique en spécifiant si on a choisi une matrice $W_{big}$ ou $W_{lin}$\footnote{A l'aide du mot-clé \texttt{lin} ou \texttt{full}.}. Ensuite, le programme demande à l'utilisateur sur combien de simulations celui-ci veut que les calculs soient effectués.\\
+\noindent où la première option spécifie la taille de la matrice $W$ utilisée et la deuxième représente le nom du fichier dans lequel cette matrice est encodée. Ensuite, le programme demande à l'utilisateur sur combien de simulations celui-ci veut que les calculs soient effectués pour la génération du graphique.
 
-Ainsi, en lançant le programme avec cette commande :
+\paragraph{}Ainsi, en lançant le programme avec cette commande :
 
 \begin{lstlisting}[language=bash]
-$ python3 exact_model.py 6 6x6_lin.txt lin
+$ python3 exact_model.py 6 6x6_lin.txt
 \end{lstlisting}
 
-On obtient ce graphique répondant à la première partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées : 
+\noindent On obtient ce graphique répondant à la première partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées : 
 
 \begin{figure}[H]
 	\centering
@@ -120,15 +119,14 @@ On obtient ce graphique répondant à la première partie de la question avec le
 	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice $W_{lin}$.}
 \end{figure}
 
-Sur la figure 1, on observe le fait que la proportion d'individus infectés est décroissante. En effet, les individus ayant peu de contacts les uns avec les autres, la probabilité qu'un individu soit infecté est faible. De plus, les individus initialement infectés finissent par guérir.\\
+\paragraph{}Sur la figure 1, on observe le fait que la proportion d'individus infectés est décroissante. En effet, les individus ayant peu de contacts les uns avec les autres, la probabilité qu'un individu soit infecté est faible. De plus, les individus initialement infectés finissent par guérir. On observe, également, qu'une partie de la population reste "susceptible" d'obtenir le virus car elle ne l'a jamais contracté car les relations entre les individus sont limitées.
 
-De la même façon en lançant le programme à l'aide de cette commande :
-
+\paragraph{}De la même façon en lançant le programme à l'aide de cette commande :
 \begin{lstlisting}[language=bash]
-$ python3 exact_model.py 6 6x6_full.txt full
+$ python3 exact_model.py 6 6x6_full.txt
 \end{lstlisting}
 
-On obtient ce graphique répondant à la deuxième partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées : 
+\noindent On obtient ce graphique répondant à la deuxième partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées : 
 
 \begin{figure}[H]
 	\centering
@@ -136,11 +134,13 @@ On obtient ce graphique répondant à la deuxième partie de la question avec le
 	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice $W_{full}$.}
 \end{figure}
 
-Sur la figure 2, on observe, à l'inverse de la situation précédente, que la population connaît un nombre important d'infectés. Au temps t = 25, on peut voir que la proportion d'individus susceptibles est proche de 0, c'est-à-dire que presque toute la population a été infecté à un instant inférieur ou égal à celui-ci. En effet, les individus ayant tous des contacts les uns avec les autres, le virus ne fait que se propager au sein de la population jusqu'à ce que celle-ci soit entièrement guérie.
+\paragraph{}Sur la figure 2, on observe, à l'inverse de la situation précédente, que la population connaît un nombre important d'infectés et très rapidement car les gens sont tous en contact. Au temps t = 25, on peut voir que la proportion d'individus susceptibles est proche de 0, c'est-à-dire que presque toute la population a été infecté à un instant inférieur ou égal à celui-ci. En effet, les individus ayant tous des contacts les uns avec les autres, le virus ne fait que se propager au sein de la population jusqu'à ce que celle-ci soit entièrement guérie.
 
 \subsection{Question 4}
 
-Lors de l'exécution des deux précédentes commandes, le programme nous retourne également le temps moyen nécessaire à la disparition du virus dans la population. On observe que le premier modèle\footnote{Celui dont la matrice d'adjacence est $W_{lin}$.} nécessite un temps supérieur au second. Cela peut sembler étrange à première vue mais quand on y réfléchit, cela devient compréhensible. En effet, les individus suivant le premier modèle de propagation n'ayant pas beaucoup de contacts, la transmission du virus existe quand même mais est plus lente. A l'opposé, celle des individus suivant le second modèle est plus rapide car une fois qu'ils sont tous contaminés\footnote{Ce qui arrive assez vite.}, ils ne peuvent que guérir.
+\paragraph{}Lors de l'exécution des deux précédentes commandes, le programme nous retourne également le temps moyen nécessaire à la disparition du virus dans la population. Nous avons obtenus une moyenne de 9,49 dans le cas où les contacts entre les gens sont limités\footnote{Celui qui utilise la matrice $W_{lin}$.} et une moyenne de 13.72 dans l'autre cas\footnote{Celui qui utilise la matrice $W_{full}$.}.
+\paragraph{}On observe que le premier modèle\footnote{Celui dont la matrice d'adjacence est $W_{lin}$.} nécessite un temps inférieur au second avant d'atteindre une situation stable. Ceci s'explique par le fait que le virus se répand mois rapidement\footnote{Car les gens sont moins en contact les uns avec les autres.} donc les gens qui sont infectés transmettent le virus à moins d'individus donc la proportion de personnes infectés est plus rapidement sous contrôle. Comme mentionné précédemment, une partie de la population n'est pas infectée par les virus donc il n'est pas nécessaire de les soigner ce qui permet de gagner du temps.
+\paragraph{}A l'inverse, dans le deuxième cas\footnote{Celui dont la matrice d'adjacence est $W_{full}$.}, le temps avant la disparition du virus est plus long car une grande majorité de la population est rapidement atteinte donc le seul moyen d'arriver à une situation "stable" est de soigner tout le monde. Dans le cas de la question 3, la probabilité d'être guéri est donné par $\mu = 0,2$ donc le temps nécessaire pour avoir une population entièrement guérie est long.
 
 	
 \end{document}
