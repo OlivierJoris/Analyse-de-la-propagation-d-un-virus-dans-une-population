@@ -3,23 +3,18 @@
 import sys, random
 import fileManagement, virusSpreadModel, transitionMatrix, graphics_generator
 
-if len(sys.argv) != 4:
+# limit of the X axis on the graphic
+MAX_X = 30
+
+if len(sys.argv) != 3:
     print("Utilisation du programme : python3 main.py nombre_d'individus "
-          "fichier_contenant_la_matrice_d'adjacence" "full|lin")
+          "fichier_contenant_la_matrice_d'adjacence")
     exit(-1)
 
 random.seed()
 
 populationSize = int(sys.argv[1])
 fileName = sys.argv[2]
-
-# limit of the X axis on the graphic
-if sys.argv[3] == "full":
-	MAX_X = 30
-elif sys.argv[3] == "lin":
-	MAX_X = 300
-else:
-	MAX_X = 100
 
 # Loading of the adjacency matrix W (see statement)
 adjacencyMatrix = fileManagement.load_square_matrix(fileName, populationSize)#

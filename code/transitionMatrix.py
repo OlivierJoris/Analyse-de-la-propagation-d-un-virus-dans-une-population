@@ -73,7 +73,14 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 								tMatrix[i][j] += '0'
 								break
 				elif state1[k] == 'S' and state2[k] == 'S':
-					tMatrix[i][j] += '(1-b)*'
+					for l in range(len(state1)):
+						if state1[l] == 'I' and l != k:
+							if adjacencyMatrix[l][k] == '1':
+								tMatrix[i][j] += '(1-b)*'
+								break
+							elif adjacencyMatrix[l][k] == '0':
+								tMatrix[i][j] += '(1)*'
+								break
 				elif state1[k] == 'I' and state2[k] == 'I':
 					tMatrix[i][j] += '(1-u)*'
 				elif state1[k] == 'I' and state2[k] == 'R':
