@@ -1,0 +1,56 @@
+    SSS | SSI | SSR | SIS | SII | SIR | SRS | SRI | SRR | ISS | ISI | ISR | IIS | III | IIR | IRS | IRI | IRR | RSS | RSI | RSR | RIS | RII | RIR | RRS | RRI | RRR | 
+
+SSS |  | SUM = 1
+
+SSI |  | SUM = 1.0
+
+SSR |  | SUM = 1
+
+SIS |  | SUM = 1.0
+
+SII |  | SUM = 1.0000000000000002
+
+SIR |  | SUM = 1.0
+
+SRS |  | SUM = 1
+
+SRI |  | SUM = 1.0
+
+SRR |  | SUM = 1
+
+ISS |  | SUM = 1.0000000000000002
+
+ISI |  | SUM = 1.0000000000000002
+
+ISR |  | SUM = 1.0
+
+IIS |  | SUM = 1.0000000000000002
+
+III |  | SUM = 1.0000000000000002
+
+IIR |  | SUM = 1.0000000000000002
+
+IRS |  | SUM = 1.0
+
+IRI |  | SUM = 1.0000000000000002
+
+IRR |  | SUM = 1.0
+
+RSS |  | SUM = 1
+
+RSI |  | SUM = 1.0
+
+RSR |  | SUM = 1
+
+RIS |  | SUM = 1.0
+
+RII |  | SUM = 1.0000000000000002
+
+RIR |  | SUM = 1.0
+
+RRS |  | SUM = 1
+
+RRI |  | SUM = 1.0
+
+RRR |  | SUM = 1
+
