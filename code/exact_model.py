@@ -4,7 +4,7 @@ import sys, random
 import fileManagement, virusSpreadModel, transitionMatrix, graphics_generator
 
 # limit of the X axis on the graphic
-MAX_X = 30
+MAX_X = 200
 
 if len(sys.argv) != 3:
     print("Utilisation du programme : python3 main.py nombre_d'individus "
