@@ -32,7 +32,7 @@ healProbability = 0.2 # Probability mu (see statement)
 tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, populationSize)
 
 #  *** Question 3 & 4***
-
+'''
 NUMBER_OF_SIMULATIONS = int(input("Number of \"simulations\" for the proportions of S/T/I and the average time :"))
 
 susceptibleProportion = [0 for i in range(MAX_X)]
@@ -86,5 +86,5 @@ time/=NUMBER_OF_SIMULATIONS
 graphics_generator.graphic(susceptibleProportion, infectedProportion, curedProportion, MAX_X, NUMBER_OF_SIMULATIONS)
 
 print("\nAverage time it takes for the virus to disappear completely : " + str(time))
-
+'''
 exit(0)

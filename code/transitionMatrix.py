@@ -67,20 +67,19 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 					for l in range(len(state1)):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == '1':
-								tMatrix[i][j] += 'b*'
-								
+								tMatrix[i][j] += '(b)*'
+								break
 							elif adjacencyMatrix[l][k] == '0':
-								tMatrix[i][j] += '0'
-								
+								tMatrix[i][j] += '(1)*'
+
 				elif state1[k] == 'S' and state2[k] == 'S':
 					for l in range(len(state1)):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == '1':
 								tMatrix[i][j] += '(1-b)*'
-								
 							elif adjacencyMatrix[l][k] == '0':
 								tMatrix[i][j] += '(1)*'
-								
+
 				elif state1[k] == 'I' and state2[k] == 'I':
 					tMatrix[i][j] += '(1-u)*'
 				elif state1[k] == 'I' and state2[k] == 'R':
@@ -99,14 +98,27 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	# Display the transition matrix
 	# print("   ", end=" ")
-	# for i in range(len(states)):
-	# 	print(states[i], end=" | ")
-	# print("\n")
-	# for i in range(len(states)):
-	# 	print(states[i], end=" | ")
-	# 	for j in range(len(states)):
-	# 		print(tMatrix[i][j], end=" | ")
-	# 	print("\n")
+	b = 0.5
+	u = 0.2
+	value = 0
+	#for i in range(len(states)):
+	#	print(states[i], end=" | ")
+	#print("\n")
+	print(states[4])
+	for i in range(len(states)):
+		print(states[i], end=" | ")
+		print(tMatrix[4][i], end=" | ")
+		print(eval(str(tMatrix[4][i])))
+		value+=(eval(str(tMatrix[4][i])))
+
+	print("SUM = " + str(value))
+	#for i in range(len(states)):
+	#	print(states[i], end=" | ")
+	#	value = 0
+	#	for j in range(len(states)):
+	#		#print(tMatrix[i][j], end=" | ")
+	#		value+=(eval(str(tMatrix[i][j])))
+	#	print(" | SUM = " + str(value) + "\n")
 
 	return tMatrix
 
