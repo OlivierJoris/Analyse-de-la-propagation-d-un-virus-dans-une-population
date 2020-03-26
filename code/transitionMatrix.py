@@ -103,13 +103,13 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 				tMatrix[i][j] = tmpString[0:(len(tmpString)-1)]
 
 	# Display the transition matrix
-	print("   ", end=" ")
-	b = 0.5
-	u = 0.2
-	value = 0
-	for i in range(len(states)):
-		print(states[i], end=" | ")
-	print("\n")
+	#print("   ", end=" ")
+	#b = 0.5
+	#u = 0.2
+	#value = 0
+	#for i in range(len(states)):
+	#	print(states[i], end=" | ")
+	#print("\n")
 	#print(states[4])
 	#for i in range(len(states)):
 	#	print(states[i], end=" | ")
@@ -118,13 +118,13 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	#	value+=(eval(str(tMatrix[4][i])))
 
 	#print("SUM = " + str(value))
-	for i in range(len(states)):
-		print(states[i], end=" | ")
-		value = 0
-		for j in range(len(states)):
-			#print(eval(str(tMatrix[i][j])), end=" | ")
-			value+=(eval(str(tMatrix[i][j])))
-		print(" | SUM = " + str(value) + "\n")
+	#for i in range(len(states)):
+	#	print(states[i], end=" | ")
+	#	value = 0
+	#	for j in range(len(states)):
+	#		#print(eval(str(tMatrix[i][j])), end=" | ")
+	#		value+=(eval(str(tMatrix[i][j])))
+	#	print(" | SUM = " + str(value) + "\n")
 
 	return tMatrix
 
