@@ -1,7 +1,7 @@
 # Main module for the exact model (section 1 of the assignment).
 
 import sys, random
-import fileManagement, virusSpreadModel, transitionMatrix, graphics_generator
+import file_management, virus_spread_model, transition_matrix, graphics_generator
 
 # limit of the X axis on the graphic
 MAX_X = 25
@@ -17,7 +17,7 @@ populationSize = int(sys.argv[1])
 fileName = sys.argv[2]
 
 # Loading of the adjacency matrix W (see statement)
-adjacencyMatrix = fileManagement.load_square_matrix(fileName, populationSize)#
+adjacencyMatrix = file_management.load_square_matrix(fileName, populationSize)#
 
 # Display the matrix
 # for i in range(populationSize):
@@ -29,7 +29,7 @@ infectionProbability = 0.5 # Probability beta (see statement)
 healProbability = 0.2 # Probability mu (see statement)
 
 # Compute the transition matrix
-tMatrix = transitionMatrix.compute_transition_matrix(adjacencyMatrix, populationSize)
+tMatrix = transition_matrix.compute_transition_matrix(adjacencyMatrix, populationSize)
 
 #  *** Question 3 & 4***
 
@@ -46,8 +46,8 @@ for i in range(NUMBER_OF_SIMULATIONS):
 	sys.stdout.flush()
 
 	# One "simulation" of the model.
-	initialConfiguration = virusSpreadModel.load_initial_configuration(populationSize)
-	proportions = virusSpreadModel.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
+	initialConfiguration = virus_spread_model.load_initial_configuration(populationSize)
+	proportions = virus_spread_model.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
 
 	time+=proportions[3]
 

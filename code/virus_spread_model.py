@@ -1,6 +1,6 @@
 # Module relative to the spread model of the virus.
 
-import random, numpy, transitionMatrix
+import random, numpy, transition_matrix
 import matplotlib.pyplot as plt
 
 DISPLAY_GRAPHIC = False
@@ -34,7 +34,7 @@ def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 
 	# Compute all the possible states
 	for i in range(populationSize - 1):
-		states = transitionMatrix.compute_states(states)
+		states = transition_matrix.compute_states(states)
 
 	currentState = initialState
 
@@ -51,7 +51,7 @@ def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 	counter = 0
 
 	# Until the situation of the population is stable we apply the model.
-	while not(transitionMatrix.stable_situation(currentState)):
+	while not(transition_matrix.stable_situation(currentState)):
 
 		# Get the line index inside the transition matrix of the current state.
 		currentIndex = 0
