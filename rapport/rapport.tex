@@ -146,7 +146,7 @@ $ python3 exact_model.py 6 6x6_full.txt
 
 \subsection{Question 1}
 
-\paragraph{}L'hypothèse d'indépendance posée par les auteurs de l'article n'est en général pas vérfiée car la probabilité qu'un individu se trouve dans un état à un instant \textit{t} dépend en partie de son interaction avec les autres personnes de la population et de leur état. Ainsi, si un individu dans un état \textit{susceptible} a des contacts avec des individus dans un état \textit{infectieux}, alors son état à un instant $t' > t$ sera impacté par ces derniers. L'indépendance n'est donc vérifiée que dans le cas où un individu n'a de contact avec personne.
+\paragraph{}L'hypothèse d'indépendance posée par les auteurs de l'article n'est en général pas vérfiée car la probabilité qu'un individu se trouve dans un état à un instant \textit{t} dépend en partie de son interaction avec les autres personnes de la population et de leur état à un instant précédent. Ainsi, si un individu dans un état \textit{susceptible} a des contacts avec des individus dans un état \textit{infectieux}, alors son état à un instant $t' > t$ sera impacté par ces derniers. L'indépendance n'est donc vérifiée que dans le cas où un individu n'a de contact avec personne.
 
 \subsection{Question 2}
 
@@ -162,7 +162,7 @@ $ python3 simulations_study.py populationSize fileName
 $ python3 simulations_study.py 6 6x6_lin.txt 
 \end{lstlisting}
 
-\noindent Le programme demande à l'utilisateur les paramètres que celui-ci souhaite utiliser pour les simulations. Ensuite, le script retourne le graphique de la figure 3 ainsi que le temps moyen de disparition des individus infectieux y correspondant.
+\noindent Le programme demande à l'utilisateur les paramètres que celui-ci souhaite utiliser pour les simulations. Ensuite, le script retourne le graphique de la figure 3 ainsi que le temps moyen de disparition des individus infectieux y correspondant. On observe ainsi que l'étude sur base du modèle exact et celle sur base de simulations coïncident pour le cas où la matrice d'adjacence correspond à $W_{lin}$.
 
 \begin{figure}[H]
 	\centering
@@ -170,22 +170,18 @@ $ python3 simulations_study.py 6 6x6_lin.txt
 	\caption{Evolution des proportions d'individus dans chacune des catégories au cours du temps suivant un modèle représenté par une matrice $W_{lin}$ de taille $6 \times 6$.}
 \end{figure}
 
-\paragraph{}On observe, sur base de l'output du programme\footnote{Le graphique de la figure 3 et le temps moyen de disparition des individus infectieux.}, que l'étude sur base du modèle exact et celle sur base de simulations coïncident pour le cas où la matrice d'adjacence correspond à $W_{lin}$.
-
 \paragraph{}De la même façon en lançant le programme à l'aide de cette commande\footnote{Et en choisissant d'utiliser 10 simulations.}:
 \begin{lstlisting}[language=bash]
 $ python3 simulations_study.py 6 6x6_full.txt 
 \end{lstlisting}
 
-\noindent On obtient le graphique de la figure 4 ainsi que le temps moyen de disparition des individus infectieux y correspondant.
+\noindent On obtient le graphique de la figure 4 ainsi que le temps moyen de disparition des individus infectieux y correspondant avec les probabilités $\beta$ et $\mu$ fixées au valeurs suggérées. On observe que l'étude sur base du modèle exact et celle sur base de simulations coïncident également dans ce cas de figure. On peut donc penser que cette simulation approxime de manière satisfaisante la réalité et permettrait ainsi de modéliser cette même simulation avec une population plus nombreuse\footnote{En prenant un nombre de simulations suffisamment pour que les calculs soient stables}.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{full_6x6_simulations.png} 
 	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice $W_{full}$ de taille $6 \times 6$.}
 \end{figure}
-
-\paragraph{}On observe, sur base de l'output du programme\footnote{Le graphique de la figure 4 et le temps moyen de disparition des individus infectieux.}, que l'étude sur base du modèle exact et celle sur base de simulations coïncident également dans ce cas de figure. On peut donc penser que cette simulation approxime de manière satisfaisante la réalité et ainsi permettrait de modéliser cette même simulation avec une population plus nombreuse\footnote{En prenant un nombre de simulations suffisamment pour que les calculs soient stables}.
 
 \subsection{Question 3}
 
@@ -195,21 +191,45 @@ $ python3 simulations_study.py 6 6x6_full.txt
 $ python3 simulations_study.py 2000 Wbig_dense.txt 
 \end{lstlisting}
 
-\noindent Le programme retourne le graphique de la figure 5 ainsi que le temps moyen de disparition des individus infectieux y correspondant.
+\noindent Le programme retourne le graphique de la figure 5 ainsi que le temps moyen de disparition des individus infectieux y correspondant avec les probabilités $\beta$ et $\mu$ fixées au valeurs suggérées.
 
 \begin{figure}[H]
 	\centering
 	\includegraphics[scale=1]{Wbig_dense_simulations.png} 
-	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice d'adjacence de taille $2000 \times 2000$ générée aléatoirement selon un modèle "scale-free".}
+	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice d'adjacence $W_{big}$ de taille $2000 \times 2000$ générée aléatoirement selon un modèle "scale-free" avec aucune mesure n'est prise.}
 \end{figure}
 
 \subsection{Question 4}
 
 \paragraph{}Si le graphique de la figure 5 représente l'évolution de l'épidémie dans le cas où aucune mesure n'est prise. Etudions l'impact des mesures suivantes :
 
-\paragraph{}(a) Réduire de la probabilité de transmission de la maladie via différents moyens revient à diminuer la probabilité de contamination $\beta$. 
+\paragraph{}(a) Réduire la probabilité de transmission de la maladie via différents moyens revient à diminuer la probabilité de contamination $\beta$. Ainsi, en réduisant la probabilité $\beta$ à 0.2, on obtient le graphique de la figure 6 qui permet de visualiser que cette mesure permet d'avoir une proportion de la population qui ne voit pas infecter par le virus. De plus, le temps de disparition de ce dernier se voit diminuer\footnote{Valant ici environ 8300}.
 
-\paragraph{}(b) Réduire les interactions entre les individus revient à diminuer le nombre de 1 dans la matrice $W$
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Wbig_dense_reduction_transmission.png} 
+	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice d'adjacence $W_{big}$ de taille $2000 \times 2000$ générée aléatoirement selon un modèle "scale-free" avec une probabilité de transmission réduite.}
+\end{figure}
 
-\paragraph{}(c) Vacciner un certain pourcentage de la population correspond à ajouter cette proportion d'individus dans l'état 'R' à l'instant $t = 0$.
+
+\paragraph{}(b) Réduire les interactions entre les individus revient à diminuer le nombre de 1 dans la matrice $W$. 
+
+\paragraph{}(c) Vacciner un certain pourcentage de la population correspond à ajouter cette proportion d'individus dans l'état 'R' à l'instant $t = 0$. Le graphique de la figure 8 représente la situation où 30\% de la population est vaccinée. Celui-ci permet également d'avoir une proportion d'individus qui n'est jamais infectée et de réduire le temps de disparition du virus\footnote{Valant ici environ 6000}.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Wbig_dense_initial_immunised.png} 
+	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice d'adjacence $W_{big}$ de taille $2000 \times 2000$ générée aléatoirement selon un modèle "scale-free" avec une proportion d'individus vaccinés.}
+\end{figure}
+
+\paragraph{}(d) Traiter les patients avec un médicament qui permettrait d'accélérer la guérison revient à augmenter la probabilité de guérison $\mu$. En augmentant la probabilité de guérison à 0.5, on voit que la principale amélioration est la vitesse de disparition du virus\footnote{Passant ici à environ 3600}. On voit également qu'une proportion d'individu ne se fait pas infecter.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Wbig_dense_speeded_heal.png} 
+	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice d'adjacence $W_{big}$ de taille $2000 \times 2000$ générée aléatoirement selon un modèle "scale-free" avec une proportion d'individus vaccinés.}
+\end{figure}
+
+\subsubsection{Comparaison des différentes mesures}
+
 \end{document}
