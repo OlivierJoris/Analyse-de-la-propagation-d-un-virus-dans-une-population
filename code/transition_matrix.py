@@ -140,18 +140,3 @@ def compute_states(originalSequence):
 			newSequence.append(originalSequence[i] + basicSequence[j])
 
 	return newSequence
-
-# Function to determine if the situation of the population is stable or not based
-# on the current state of the population.
-# Return False if there're humains who are still infected and so the situation can still evolve.
-# Else return True.
-def stable_situation(currentState):
-
-	stableSituation = True
-
-	for i in range(len(currentState)):
-		if currentState[i] == 'I':
-			stableSituation = False
-			break
-
-	return stableSituation

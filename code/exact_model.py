@@ -4,11 +4,11 @@ import sys, random
 import file_management, virus_spread_model, transition_matrix, graphics_generator
 
 # limit of the X axis on the graphic
-MAX_X = 25
+MAX_X = 50
 
 if len(sys.argv) != 3:
-    print("Utilisation du programme : python3 main.py nombre_d'individus "
-          "fichier_contenant_la_matrice_d'adjacence")
+    print("Program usage : python3 exact_model.py populationSize "
+          "adjacencyMatrixFileName initialProportion")
     exit(-1)
 
 random.seed()
@@ -46,7 +46,7 @@ for i in range(NUMBER_OF_SIMULATIONS):
 	sys.stdout.flush()
 
 	# One "simulation" of the model.
-	initialConfiguration = virus_spread_model.load_initial_configuration(populationSize)
+	initialConfiguration = virus_spread_model.load_initial_configuration_exact_model(populationSize)
 	proportions = virus_spread_model.virus_evolution(tMatrix, populationSize, initialConfiguration, infectionProbability, healProbability)
 
 	time+=proportions[3]
@@ -69,7 +69,7 @@ for i in range(NUMBER_OF_SIMULATIONS):
 			infectedProportion[i] += proportions[1][len(proportions[0]) - 1]
 			curedProportion[i] += proportions[2][len(proportions[0]) - 1]
 
-# Calculate the mean of the tree lists.
+# Calculate the mean of the three lists.
 for i in range(MAX_X):
 	susceptibleProportion[i]/=NUMBER_OF_SIMULATIONS
 	infectedProportion[i]/=NUMBER_OF_SIMULATIONS

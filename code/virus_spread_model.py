@@ -7,7 +7,7 @@ DISPLAY_GRAPHIC = False
 
 # Load an initial configuration with 1 infected and a 1 / populationSize probability to be this
 # first infected of the population.
-def load_initial_configuration(populationSize):
+def load_initial_configuration_exact_model(populationSize):
 
 	randNumber = random.randint(0, populationSize - 1)
 
@@ -51,7 +51,7 @@ def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
 	counter = 0
 
 	# Until the situation of the population is stable we apply the model.
-	while not(transition_matrix.stable_situation(currentState)):
+	while not(stable_situation(currentState)):
 
 		# Get the line index inside the transition matrix of the current state.
 		currentIndex = 0
@@ -143,3 +143,136 @@ def states_proportions(currentState):
 			cured+=1
 
 	return (susceptible/populationSize, infected/populationSize, cured/populationSize)
+
+# Function to determine if the situation of the population is stable or not based
+# on the current state of the population.
+# Return False if there're humains who are still infected and so the situation can still evolve.
+# Else return True.
+def stable_situation(currentState):
+
+	stableSituation = True
+
+	for i in range(len(currentState)):
+		if currentState[i] == 'I':
+			stableSituation = False
+			break
+
+	return stableSituation
+
+# Load an initial configuration with a the given infected proportion.
+def load_initial_configuration_simulations_study(populationSize, proportion):
+	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize * (proportion)))
+
+	initialConfiguration = ['S' for i in range(populationSize)]
+
+	for i in range(len(randNumbers)):
+		initialConfiguration[randNumbers[i]] = 'I'
+
+	return initialConfiguration
+
+# Simulate a random execution of the Markov chain and return a list with the state proportions at 
+# each time (second section).
+def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, populationSize, 
+	infectionProbability, healProbability):
+	if (len(adjacencyMatrix) != populationSize):
+		print("ERROR : The size of the adjacency matrix doesn't match the population size.")
+
+	infectedLines = []
+	newInfected = []
+	susceptibleProportions = []
+	infectedProportions = []
+	immunisedProportions = []
+
+	# Localisation of the infetcted in the population.
+	for i in range(populationSize):
+		if currentConfiguration[i] == 'I':
+			infectedLines.append(i)
+
+	# Addition of the initial proportion in the corresponding list.
+	susceptibleProportions.append(states_proportions(currentConfiguration)[0]) 
+	infectedProportions.append(states_proportions(currentConfiguration)[1])
+	immunisedProportions.append(states_proportions(currentConfiguration)[2])
+
+	# Simulation of one random execution of the chain.
+	while not(stable_situation(currentConfiguration)):
+		for currentLine in infectedLines:
+			for i in range(populationSize):
+				if adjacencyMatrix[currentLine][i] == '1':
+					randomNumber = random.uniform(0, 1.0)
+					if randomNumber <= infectionProbability:
+						if currentConfiguration[i] == 'S':
+							currentConfiguration[i] = 'I'
+							newInfected.append(i)
+									
+			randomNumber = random.uniform(0, 1.0)
+			if randomNumber <= healProbability:
+				currentConfiguration[currentLine] = 'R'
+				infectedLines.remove(currentLine)
+			
+			# Addition of the new infected in the corresponding list.
+			for nInfected in newInfected:
+				infectedLines.append(nInfected)
+				newInfected.remove(nInfected)
+
+			# Addition of the actual proportion to the corresponding list.
+			susceptibleProportions.append(states_proportions(currentConfiguration)[0]) 
+			infectedProportions.append(states_proportions(currentConfiguration)[1])
+			immunisedProportions.append(states_proportions(currentConfiguration)[2]) 
+
+	return susceptibleProportions, infectedProportions, immunisedProportions
+
+# Compute the mean of state proportions and the average time for disappearance of the virus based 
+# on the given number of simulations.
+def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProbability, 
+	healProbability, numberOfSimulations, maxX, initialInfectedProportion):
+
+	susceptibleSumProportions = [0 for i in range(maxX)]
+	infectedSumProportions = [0 for i in range(maxX)]
+	immunisedSumProportions = [0 for i in range(maxX)]
+
+	sumInfectedTime = 0
+
+	# Computation of the proportion sum based on simulations.
+	for i in range(numberOfSimulations):
+		initialConfiguration = load_initial_configuration_simulations_study(populationSize, initialInfectedProportion)
+
+		stateProportions = simulate_random_chain_execution(initialConfiguration, adjacencyMatrix, 
+						   populationSize, infectionProbability, healProbability)
+
+		susceptibleProportions = stateProportions[0]
+		infectedProportions = stateProportions[1]
+		immunisedProportions = stateProportions[2]
+
+		# Computing the sum of infected time in order to compute the mean of this time.
+		for j in range(len(infectedProportions)):
+			if infectedProportions[j] == 0.0:
+				sumInfectedTime += j
+
+		# Resize the array to get the same size repeting the last element 
+		# (corresponding to a stable situation)
+		if(len(susceptibleProportions) < maxX):
+			for j in range(len(susceptibleProportions), maxX):
+				susceptibleProportions.append(susceptibleProportions[j - 1])
+				infectedProportions.append(infectedProportions[j - 1])
+				immunisedProportions.append(immunisedProportions[j - 1])
+
+		for j in range(maxX):
+			susceptibleSumProportions[j] += susceptibleProportions[j]
+			infectedSumProportions[j] += infectedProportions[j]
+			immunisedSumProportions[j] += immunisedProportions[j]
+		
+		# print(infectedSumProportions[maxX - 1])
+
+	# Computation of the proportion mean based on simulations.
+	susceptibleMeanProportions = [0 for i in range(maxX)]
+	infectedMeanProportions = [0 for i in range(maxX)]
+	immunisedMeanProportions = [0 for i in range(maxX)]
+
+	for i in range(maxX):
+		susceptibleMeanProportions[i] = susceptibleSumProportions[i] / numberOfSimulations
+		infectedMeanProportions[i] = infectedSumProportions[i] / numberOfSimulations
+		immunisedMeanProportions[i] = immunisedSumProportions[i] / numberOfSimulations
+
+	meanInfectedTime = sumInfectedTime / numberOfSimulations
+
+	return susceptibleMeanProportions, infectedMeanProportions, immunisedMeanProportions, meanInfectedTime
