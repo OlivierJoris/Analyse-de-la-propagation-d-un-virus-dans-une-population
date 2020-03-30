@@ -111,7 +111,7 @@ $ python3 exact_model.py matrixSize fileName
 $ python3 exact_model.py 6 6x6_lin.txt
 \end{lstlisting}
 
-\noindent On obtient ce graphique répondant à la première partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées : 
+\noindent On obtient le graphique de la figure 1 répondant à la première partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées.
 
 \begin{figure}[H]
 	\centering
@@ -126,7 +126,7 @@ $ python3 exact_model.py 6 6x6_lin.txt
 $ python3 exact_model.py 6 6x6_full.txt
 \end{lstlisting}
 
-\noindent On obtient ce graphique répondant à la deuxième partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées : 
+\noindent On obtient le graphique de la figure 2 répondant à la deuxième partie de la question avec les paramètres $\mu$ et $\beta$ fixés aux valeurs suggérées.
 
 \begin{figure}[H]
 	\centering
@@ -142,5 +142,74 @@ $ python3 exact_model.py 6 6x6_full.txt
 \paragraph{}On observe que le premier modèle\footnote{Celui dont la matrice d'adjacence est $W_{lin}$.} nécessite un temps inférieur au second avant d'atteindre une situation stable. Ceci s'explique par le fait que le virus se répand mois rapidement\footnote{Car les gens sont moins en contact les uns avec les autres.} donc les gens qui sont infectés transmettent le virus à moins d'individus donc la proportion de personnes infectés est plus rapidement sous contrôle. Comme mentionné précédemment, une partie de la population n'est pas infectée par les virus donc il n'est pas nécessaire de les soigner ce qui permet de gagner du temps.
 \paragraph{}A l'inverse, dans le deuxième cas\footnote{Celui dont la matrice d'adjacence est $W_{full}$.}, le temps avant la disparition du virus est plus long car une grande majorité de la population est rapidement atteinte donc le seul moyen d'arriver à une situation "stable" est de soigner tout le monde. Dans le cas de la question 3, la probabilité d'être guéri est donné par $\mu = 0,2$ donc le temps nécessaire pour avoir une population entièrement guérie est long.
 
-	
+\section{Etude sur base de simulations}
+
+\subsection{Question 1}
+
+\paragraph{}L'hypothèse d'indépendance posée par les auteurs de l'article n'est en général pas vérfiée car la probabilité qu'un individu se trouve dans un état à un instant \textit{t} dépend en partie de son interaction avec les autres personnes de la population et de leur état. Ainsi, si un individu dans un état \textit{susceptible} a des contacts avec des individus dans un état \textit{infectieux}, alors son état à un instant $t' > t$ sera impacté par ces derniers. L'indépendance n'est donc vérifiée que dans le cas où un individu n'a de contact avec personne.
+
+\subsection{Question 2}
+
+\paragraph{}Pour répondre à cette question, le programme peut-être lancé à l'aide de la commande suivante :
+\begin{lstlisting}[language=bash]
+$ python3 simulations_study.py populationSize fileName 
+\end{lstlisting}
+\noindent où la première option spécifie la taille de la matrice $W$ utilisée et la deuxième option correspond au nom du fichier dans lequel cette matrice est encodée.
+
+\paragraph{}Ainsi, en lançant le programme avec cette commande :
+
+\begin{lstlisting}[language=bash]
+$ python3 simulations_study.py 6 6x6_lin.txt 
+\end{lstlisting}
+
+\noindent Le programme demande à l'utilisateur les paramètres que celui-ci souhaite utiliser pour les simulations. Ensuite, le script retourne le graphique de la figure 3 ainsi que le temps moyen de disparition des individus infectieux y correspondant.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{lin_6x6_simulations.png} 
+	\caption{Evolution des proportions d'individus dans chacune des catégories au cours du temps suivant un modèle représenté par une matrice $W_{lin}$ de taille $6 \times 6$.}
+\end{figure}
+
+\paragraph{}On observe, sur base de l'output du programme\footnote{Le graphique de la figure 3 et le temps moyen de disparition des individus infectieux.}, que l'étude sur base du modèle exact et celle sur base de simulations coïncident pour le cas où la matrice d'adjacence correspond à $W_{lin}$.
+
+\paragraph{}De la même façon en lançant le programme à l'aide de cette commande\footnote{Et en choisissant d'utiliser 10 simulations.}:
+\begin{lstlisting}[language=bash]
+$ python3 simulations_study.py 6 6x6_full.txt 
+\end{lstlisting}
+
+\noindent On obtient le graphique de la figure 4 ainsi que le temps moyen de disparition des individus infectieux y correspondant.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{full_6x6_simulations.png} 
+	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice $W_{full}$ de taille $6 \times 6$.}
+\end{figure}
+
+\paragraph{}On observe, sur base de l'output du programme\footnote{Le graphique de la figure 4 et le temps moyen de disparition des individus infectieux.}, que l'étude sur base du modèle exact et celle sur base de simulations coïncident également dans ce cas de figure. On peut donc penser que cette simulation approxime de manière satisfaisante la réalité et ainsi permettrait de modéliser cette même simulation avec une population plus nombreuse\footnote{En prenant un nombre de simulations suffisamment pour que les calculs soient stables}.
+
+\subsection{Question 3}
+
+\paragraph{}En lançant le programme à l'aide de la commande suivante\footnote{Et en choisissant un nombre suffisant de simulations pour avoir des résultats stables.} 
+
+\begin{lstlisting}[language=bash]
+$ python3 simulations_study.py 2000 Wbig_dense.txt 
+\end{lstlisting}
+
+\noindent Le programme retourne le graphique de la figure 5 ainsi que le temps moyen de disparition des individus infectieux y correspondant.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[scale=1]{Wbig_dense_simulations.png} 
+	\caption{Evolution des proportions d'individus dans chacune des catégorie au cours du temps suivant un modèle représenté par une matrice d'adjacence de taille $2000 \times 2000$ générée aléatoirement selon un modèle "scale-free".}
+\end{figure}
+
+\subsection{Question 4}
+
+\paragraph{}Si le graphique de la figure 5 représente l'évolution de l'épidémie dans le cas où aucune mesure n'est prise. Etudions l'impact des mesures suivantes :
+
+\paragraph{}(a) Réduire de la probabilité de transmission de la maladie via différents moyens revient à diminuer la probabilité de contamination $\beta$. 
+
+\paragraph{}(b) Réduire les interactions entre les individus revient à diminuer le nombre de 1 dans la matrice $W$
+
+\paragraph{}(c) Vacciner un certain pourcentage de la population correspond à ajouter cette proportion d'individus dans l'état 'R' à l'instant $t = 0$.
 \end{document}

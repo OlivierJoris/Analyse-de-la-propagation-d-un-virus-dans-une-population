@@ -3,44 +3,48 @@
 import sys, random
 import file_management, virus_spread_model, graphics_generator
 
-NUMBER_OF_SIMULATIONS = 10
-
-if len(sys.argv) != 4:
+if len(sys.argv) != 3:
     print("Program usage : python3 simulations_study.py populationSize "
-          "adjacencyMatrixFileName initialInfectedProportion")
+          "adjacencyMatrixFileName")
     exit(-1)
 
 random.seed()
 
-populationSize = int(sys.argv[1])
-fileName = sys.argv[2]
-initialInfectedProportion = float(sys.argv[3])
-
-MAX_X = populationSize * 7
+POPULATION_SIZE = int(sys.argv[1])
+FILE_NAME = sys.argv[2]
 
 # Loading of the adjacency matrix W (see statement).
-adjacencyMatrix = file_management.load_square_matrix(fileName, populationSize)
+ADJACENCY_MATRIX = file_management.load_square_matrix(FILE_NAME, POPULATION_SIZE)
 
-infectionProbability = 0.5 # Probability beta (see statement).
-healProbability = 0.2 # Probability µ (see statement).
-
-NUMBER_OF_SIMULATIONS = int(input("Number of \"simulations\" for the proportions of S/T/I and the average time :"))
+# Asking the user for constant parameters.
+INITIAL_INFECTED_PROPORTION = float(input("Initial proportion of infected (fractions not "
+                                          "supported) :"))
+INITIAL_IMMUNISED_PROPORTION = float(input("Initial proportion of immunised (fractions not "
+                                           "supported) :"))
+INFECTION_PROBABILITY = float(input("Probability to be infected (beta in statement, fractions not "
+                                    "supported) :"))
+HEAL_PROBABILITY = float(input("Probability to be healed (mu in statement, fractions not "
+                               "supported) :"))
+NUMBER_OF_SIMULATIONS = int(input("Number of \"simulations\" for the proportions of S/T/I and the "
+                                  "average time :"))
+MAX_TIME = int(input("Maximum time (x axis of the output graphic) :"))
 
 # Computing the mean of the proportions and the average time for disappearance of the virus based 
 # on simulations.
-meanStateProportions = virus_spread_model.compute_mean_proportions_time(adjacencyMatrix, populationSize,
-                       infectionProbability, healProbability, NUMBER_OF_SIMULATIONS, MAX_X, initialInfectedProportion)
+meanStateProportions = virus_spread_model.compute_mean_proportions_time(ADJACENCY_MATRIX, 
+                       POPULATION_SIZE, INFECTION_PROBABILITY, HEAL_PROBABILITY, 
+                       NUMBER_OF_SIMULATIONS, MAX_TIME, INITIAL_INFECTED_PROPORTION, 
+                       INITIAL_IMMUNISED_PROPORTION)
 
-meanSusceptibleProportions = meanStateProportions[0]
-meanInfectedProportions = meanStateProportions[1]
-meanImmunisedProportions = meanStateProportions[2]
-
+# Display of the average time for disappearance of the virus.
 meanInfectedTime = meanStateProportions[3]
-
 print("\nAverage time it takes for the virus to disappear completely : " + str(meanInfectedTime))
 
 # Generation of the corresponding evolution graphic.
+meanSusceptibleProportions = meanStateProportions[0]
+meanInfectedProportions = meanStateProportions[1]
+meanImmunisedProportions = meanStateProportions[2]
 graphics_generator.graphic(meanSusceptibleProportions, meanInfectedProportions,
-                           meanImmunisedProportions, MAX_X, NUMBER_OF_SIMULATIONS)
+                           meanImmunisedProportions, MAX_TIME, NUMBER_OF_SIMULATIONS)
 
 exit(0)
