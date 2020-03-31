@@ -162,7 +162,7 @@ def stable_situation(currentState):
 # Simulate a random execution of the Markov chain and return a list with the state proportions at 
 # each time (second section).
 def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, populationSize, 
-	infectionProbability, healProbability):
+	infectionProbability, healProbability, maxInteractionsNumber):
 	if (len(adjacencyMatrix) != populationSize):
 		print("ERROR : The size of the adjacency matrix doesn't match the population size.")
 
@@ -171,6 +171,7 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 	susceptibleProportions = []
 	infectedProportions = []
 	immunisedProportions = []
+	currentInteractionsNumber = 0
 
 	# Localisation of the infetcted in the population.
 	for i in range(populationSize):
@@ -186,12 +187,14 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 	while not(stable_situation(currentConfiguration)):
 		for currentLine in infectedLines:
 			for i in range(populationSize):
-				if adjacencyMatrix[currentLine][i] == '1':
+				if adjacencyMatrix[currentLine][i] == '1' and currentInteractionsNumber < maxInteractionsNumber:
 					randomNumber = random.uniform(0, 1.0)
+					currentInteractionsNumber += 1
 					if randomNumber <= infectionProbability:
 						if currentConfiguration[i] == 'S':
 							currentConfiguration[i] = 'I'
 							newInfected.append(i)
+			currentInteractionsNumber = 0
 									
 			randomNumber = random.uniform(0, 1.0)
 			if randomNumber <= healProbability:
@@ -214,7 +217,7 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 # on the given number of simulations.
 def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProbability, 
 	healProbability, numberOfSimulations, maxTime, initialInfectedProportion, 
-	initialImmunisedProportion):
+	initialImmunisedProportion, maxInteractionsNumber):
 
 	susceptibleSumProportions = [0 for i in range(maxTime)]
 	infectedSumProportions = [0 for i in range(maxTime)]
@@ -228,7 +231,8 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 							   initialInfectedProportion, initialImmunisedProportion)
 
 		stateProportions = simulate_random_chain_execution(initialConfiguration, adjacencyMatrix, 
-						   populationSize, infectionProbability, healProbability)
+						   populationSize, infectionProbability, healProbability, 
+						   maxInteractionsNumber)
 
 		susceptibleProportions = stateProportions[0]
 		infectedProportions = stateProportions[1]
