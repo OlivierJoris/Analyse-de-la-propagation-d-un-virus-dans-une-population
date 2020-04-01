@@ -1,5 +1,27 @@
-# Module to get the transition matrix using W and N and all the possible states
+# ------------------------------------------------------------------------------#
+# Module to get the transition matrix using W (adjacency matrix) and N (the size
+# of the population).
+#
+# GOFFART Maxime (180521) & JORIS Olivier (182113)
+# ------------------------------------------------------------------------------#
 
+
+import sys
+import states_manipulator
+
+# ------------------------------------------------------------------------------#
+# Function to display the transition matrix.
+# ------------------------------------------------------------------------------#
+def display(tMatrix):
+	for i in range(len(tMatrix)):
+		for j in range(len(tMatrix)):
+			print(tMatrix[i][j], end=" | ")
+		print("\n")
+
+# ------------------------------------------------------------------------------#
+# Function to compute the transition matrix (as a matrix of strings) based on
+# the graph W and the size of the population.
+# ------------------------------------------------------------------------------#
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	if(len(adjacencyMatrix) != populationSize):
@@ -8,9 +30,9 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	states = ['S', 'I', 'R']
 
-	# Compute all the possible states
+	# Computes all the possible states
 	for i in range(populationSize - 1):
-		states = compute_states(states)
+		states = states_manipulator.compute_states(states)
 
 	#print("Number of differents states = " + str(len(states)) + "\n")
 
@@ -18,7 +40,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	#for i in range(len(states)):
 	#	print(states[i])
 
-	# Create an empty transition matrix
+	# Creates an empty transition matrix
 	tMatrix = [[' ' for i in range(len(states))] for i in range(len(states))]
 
 	# The first state which is SS is a special case
@@ -30,9 +52,12 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	# Others lines
 
 	for i in range(1, len(states)):
+		sys.stdout.write("\rComputing line n°%d/%d of the transition matrix" % ((i+1), len(states)))
+		sys.stdout.flush()
 		state1 = states[i]
 
 		# If the current state (state1) doesn't contained 'I' than we can only stay in the same state
+		# Absorbent state
 		if 'I' not in state1:
 			for q in range(len(states)):
 				if states[i] == states[q]:
@@ -93,7 +118,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 				elif state1[k] == 'R' and state2[k] == 'R':
 					tMatrix[i][j] += '(1)*'
 
-	# Verify
+	# Remove the last '*' of each string if necessary
 	for i in range(len(states)):
 		for j in range(len(states)):
 			tmpString = tMatrix[i][j]
@@ -128,15 +153,24 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	return tMatrix
 
-# Function to obtain all the possible states of the chain when adding an individual to the chain
-# originalSequence
-def compute_states(originalSequence):
+# ------------------------------------------------------------------------------#
+# Function to replace beta and mu in the transition matrix (matrix of strings)
+# in order to obtain a matrix of floats.
+# ------------------------------------------------------------------------------#
+def evaluate_transition_matrix(tMatrix, populationSize, beta, mu):
 
-	basicSequence = ['S', 'I', 'R']
-	newSequence = []
+	if len(tMatrix) != pow(3, populationSize):
+		print("Error : matrix size is NOT equal to populationSize^3")
+		return []
 
-	for i in range(len(originalSequence)):
-		for j in range(len(basicSequence)):
-			newSequence.append(originalSequence[i] + basicSequence[j])
+	b = beta
+	u = mu
 
-	return newSequence
+	temp = [[0 for i in range(len(tMatrix))] for i in range(len(tMatrix))]
+
+	for i in range(len(tMatrix)):
+		for j in range(len(tMatrix)):
+			temp[i][j] = eval(str(tMatrix[i][j]))
+
+
+	return temp

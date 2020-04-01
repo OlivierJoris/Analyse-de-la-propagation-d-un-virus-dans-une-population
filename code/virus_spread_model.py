@@ -1,168 +1,133 @@
+# ------------------------------------------------------------------------------#
 # Module relative to the spread model of the virus.
+#
+# GOFFART Maxime (180521) & JORIS Olivier (182113)
+# ------------------------------------------------------------------------------#
 
-import random, numpy, transition_matrix
-import matplotlib.pyplot as plt
 
-DISPLAY_GRAPHIC = False
+# External libraries
+import random, sys
+import numpy as np
+from numpy.linalg import matrix_power
+from numpy import dot as matrix_product
+from numpy import finfo as float_info
 
-# Load an initial configuration with 1 infected and a 1 / populationSize probability to be this
-# first infected of the population.
-def load_initial_configuration_exact_model(populationSize):
+# Own files
+import transition_matrix, states_manipulator, graphics_generator
 
-	randNumber = random.randint(0, populationSize - 1)
+# Precision in infected proportion for considering that the virus completely
+# disappear for the exact model (method virus_evolution)
+#PRECISION = float_info(np.float32).eps # Epsilon machine
+PRECISION = 0.001
 
-	initialConfiguration = ""
+# Limit of the X axis on the graphic
+MAX_X = 35
 
-	for i in range(populationSize):
-		if i != randNumber:
-			initialConfiguration += ("S")
-		else:
-			initialConfiguration += ("I")
+# ------------------------------------------------------------------------------#
+# Function which computes the spread of the virus based on the transition matrix
+# (exact model - section 1 of the assignment).
+# ------------------------------------------------------------------------------#
+def virus_evolution(tMatrix, populationSize, states):
 
-	return initialConfiguration
+	# Finds all the possible initial states (only one infected)
+	currentStates = states_manipulator.find_initial_states(states, populationSize)
 
-# Predict the spread of the virus based on the transition matrix, the population's size,
-# the initial state of the population, the probability of being infected if we meet
-# someone who's infected (beta), and the probability of being cure if we're infected (mu)
-def virus_evolution(tMatrix, populationSize, initialState, beta, mu):
+	susceptibleProportion = [(populationSize - 1)/populationSize]
+	infectedProportion = [1/populationSize]
+	curedProportion = [0]
 
-	#print("** Entering virus_evolution function **")
-
-	#print("Initial state is : " + initialState)
-
-	states = ['S', 'I', 'R']
-
-	# Compute all the possible states
-	for i in range(populationSize - 1):
-		states = transition_matrix.compute_states(states)
-
-	currentState = initialState
-
-	susceptibleProportion = []
-	infectedProportion = []
-	curedProportion = []
-
-	proportions = states_proportions(currentState)
-
-	susceptibleProportion.append(proportions[0])
-	infectedProportion.append(proportions[1])
-	curedProportion.append(proportions[2])
+	# Temporary transition matrix
+	tmpTMatrix = matrix_power(tMatrix, 0) # Matrice identité
 
 	counter = 0
 
-	# Until the situation of the population is stable we apply the model.
-	while not(stable_situation(currentState)):
+	# Epsilon machine precision
+	while infectedProportion[len(infectedProportion) - 1] > PRECISION:
+		#sys.stdout.write("\rTime step n°%d/%d" % ((a+1), MAX_X))
+		#sys.stdout.flush()
 
-		# Get the line index inside the transition matrix of the current state.
-		currentIndex = 0
-		for i in range(len(states)):
-			if states[i] == currentState:
-				currentIndex = i
-				break
-
-		#print("The current state is on line index : " + str(currentIndex) + " of the states list")
-
-		# Retrieve the correspond line inside the transition matrix.
-		currentMatrixLine = tMatrix[currentIndex]
-
-		#print(currentMatrixLine)
-
-		# Defining b and u as the parameters of the method.
-		b = beta
-		u = mu
-
-		# Replace b and u inside the transition matrix by the arguments of the method
-		# so we can determine the probabilities on the line that we're considering in the
-		# transition matrix.
-		probabilities = []
-		for i in range(len(currentMatrixLine)):
-			probabilities.append(eval(str(currentMatrixLine[i])))
-
-		#print(probabilities)
-
-		#print("The sum of the probabilities is equal to " + str(sum(probabilities)))
-
-		# Compute the accumulated probabilities using the function cumsum of NumPy.
-		cumProbabilities = numpy.cumsum(probabilities)
-
-		# Draw a random float between 0 and 1 to determine the next state of the Markov chain
-		newRandom = random.uniform(0, 1.0)
-
-		#print("New random number between 0 and 1 : " + str(newRandom))
-
-		# Determine the next state of the Markov chain using the newRandom.
-		for i in range(len(cumProbabilities)):
-			if cumProbabilities[i] > newRandom:
-				#print("\nThe rank of the new state is : " + str(i))
-				#print(states[i])
-				currentState = states[i]
-				break
-
-		proportions = states_proportions(currentState)
-
-		susceptibleProportion.append(proportions[0])
-		infectedProportion.append(proportions[1])
-		curedProportion.append(proportions[2])
+		#print(infectedProportion[len(infectedProportion) - 1])
 		counter+=1
 
-	#print("Counter value = " + str(counter))
+		#P^N = P * (P^(N-1))
+		tmpTMatrix = matrix_product(tMatrix, tmpTMatrix)
 
-	if DISPLAY_GRAPHIC:
+		# Remembers the lines of the transition matrix that we are considering
+		matrixLines = []
 
-		xAxis = list(range(0, counter+1))
+		numberOfStates = len(currentStates)
 
-		plt.plot(xAxis, susceptibleProportion, label = "Susceptible proportion", color = "blue")
-		plt.plot(xAxis, infectedProportion, label = "Infected proportion", color = "red")
-		plt.plot(xAxis, curedProportion, label = "Cured proportion", color = "green")
-		plt.ylabel("Proportion")
-		plt.xlabel("Time")
-		plt.title("Evolution")
-		plt.legend()
-		plt.show()
+		# Retrieves the considered lines from the transition matrix
+		for i in range(numberOfStates):
+			index = states_manipulator.states_get_index(states, currentStates[i])
+			matrixLines.append(tmpTMatrix[index])
 
-	return (susceptibleProportion, infectedProportion, curedProportion, counter)
+		tmpS = 0
+		tmpI = 0
+		tmpC = 0
 
+		# Goes through every lines of the transition matrix that we are considering
+		for i in range(len(matrixLines)):
 
-# Function which return the proportions of susceptible people, infected people,
-# and cured people
-def states_proportions(currentState):
+			tmpSProp = 0
+			tmpIProp = 0
+			tmpCProp = 0
 
-	susceptible = 0
-	infected = 0
-	cured = 0
+			# Goes through each column of one line
+			for j in range(len(matrixLines[0])):
 
-	populationSize = len(currentState)
+				# Processes the proportions for one state
+				if matrixLines[i][j] != 0:
 
-	for i in range(len(currentState)):
+					index = states_manipulator.states_get_index(states, currentStates[i])
+					tmp = states_manipulator.states_proportions(states[j])
 
-		if currentState[i] == 'S':
-			susceptible+=1
-		elif currentState[i] == 'I':
-			infected+=1
-		elif currentState[i] == 'R':
-			cured+=1
+					tmpSProp = tmpSProp + (tmp[0] * tmpTMatrix[index][j])
+					tmpIProp = tmpIProp + (tmp[1] * tmpTMatrix[index][j])
+					tmpCProp = tmpCProp + (tmp[2] * tmpTMatrix[index][j])
 
-	return (susceptible/populationSize, infected/populationSize, cured/populationSize)
+			# Proportions for one line
+			probability = 1 / numberOfStates
+			tmpS+=(tmpSProp * probability)
+			tmpI+=(tmpIProp * probability)
+			tmpC+=(tmpCProp * probability)
 
-# Function to determine if the situation of the population is stable or not based
-# on the current state of the population.
-# Return False if there're humains who are still infected and so the situation can still evolve.
-# Else return True.
-def stable_situation(currentState):
+		# Proportions for one step of the Markov chain
+		susceptibleProportion.append(tmpS)
+		infectedProportion.append(tmpI)
+		curedProportion.append(tmpC)
 
-	stableSituation = True
+	#print("len susceptibleProportion = " + str(len(susceptibleProportion)))
+	#print("len infectedProportion = " + str(len(infectedProportion)))
+	#print("len curedProportion = " + str(len(curedProportion)))
 
-	for i in range(len(currentState)):
-		if currentState[i] == 'I':
-			stableSituation = False
-			break
+	# Resizes the arrays to get the same size repeting the last element
+	if len(susceptibleProportion) < MAX_X:
+		last = susceptibleProportion[len(susceptibleProportion) - 1]
+		for i in range(MAX_X - len(susceptibleProportion)):
+			susceptibleProportion.append(last)
 
-	return stableSituation
+	if len(infectedProportion) < MAX_X:
+		last = infectedProportion[len(infectedProportion) - 1]
+		for i in range(MAX_X - len(infectedProportion)):
+			infectedProportion.append(last)
 
-# Simulate a random execution of the Markov chain and return a list with the state proportions at 
-# each time (second section).
-def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, populationSize, 
+	if len(curedProportion) < MAX_X:
+		last = curedProportion[len(curedProportion) - 1]
+		for i in range(MAX_X - len(curedProportion)):
+			curedProportion.append(last)
+
+	graphics_generator.graphic(susceptibleProportion[0:MAX_X], infectedProportion[0:MAX_X], curedProportion[0:MAX_X], MAX_X, 0)
+
+	return counter
+
+# ------------------------------------------------------------------------------#
+# Simulates a random execution of the Markov chain and returns a list with the
+# state proportions at each time (second section).
+# ------------------------------------------------------------------------------#
+def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, populationSize,
 	infectionProbability, healProbability, maxInteractionsNumber):
+
 	if (len(adjacencyMatrix) != populationSize):
 		print("ERROR : The size of the adjacency matrix doesn't match the population size.")
 
@@ -179,12 +144,12 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 			infectedLines.append(i)
 
 	# Addition of the initial proportion in the corresponding list.
-	susceptibleProportions.append(states_proportions(currentConfiguration)[0]) 
-	infectedProportions.append(states_proportions(currentConfiguration)[1])
-	immunisedProportions.append(states_proportions(currentConfiguration)[2])
+	susceptibleProportions.append(states_manipulator.states_proportions(currentConfiguration)[0])
+	infectedProportions.append(states_manipulator.states_proportions(currentConfiguration)[1])
+	immunisedProportions.append(states_manipulator.states_proportions(currentConfiguration)[2])
 
 	# Simulation of one random execution of the chain.
-	while not(stable_situation(currentConfiguration)):
+	while not(states_manipulator.stable_situation(currentConfiguration)):
 		for currentLine in infectedLines:
 			for i in range(populationSize):
 				if adjacencyMatrix[currentLine][i] == '1' and currentInteractionsNumber < maxInteractionsNumber:
@@ -195,28 +160,30 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 							currentConfiguration[i] = 'I'
 							newInfected.append(i)
 			currentInteractionsNumber = 0
-									
+
 			randomNumber = random.uniform(0, 1.0)
 			if randomNumber <= healProbability:
 				currentConfiguration[currentLine] = 'R'
 				infectedLines.remove(currentLine)
-			
+
 			# Addition of the new infected in the corresponding list.
 			for nInfected in newInfected:
 				infectedLines.append(nInfected)
 				newInfected.remove(nInfected)
 
 			# Addition of the actual proportion to the corresponding list.
-			susceptibleProportions.append(states_proportions(currentConfiguration)[0]) 
-			infectedProportions.append(states_proportions(currentConfiguration)[1])
-			immunisedProportions.append(states_proportions(currentConfiguration)[2]) 
+			susceptibleProportions.append(states_manipulator.states_proportions(currentConfiguration)[0])
+			infectedProportions.append(states_manipulator.states_proportions(currentConfiguration)[1])
+			immunisedProportions.append(states_manipulator.states_proportions(currentConfiguration)[2])
 
 	return [susceptibleProportions, infectedProportions, immunisedProportions]
 
-# Compute the mean of state proportions and the average time for disappearance of the virus based 
-# on the given number of simulations.
-def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProbability, 
-	healProbability, numberOfSimulations, maxTime, initialInfectedProportion, 
+# ------------------------------------------------------------------------------#
+# Computes the mean of state proportions and the average time for disappearance
+# of the virus based on the given number of simulations.
+# ------------------------------------------------------------------------------#
+def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProbability,
+	healProbability, numberOfSimulations, maxTime, initialInfectedProportion,
 	initialImmunisedProportion, maxInteractionsNumber):
 
 	susceptibleSumProportions = [0 for i in range(maxTime)]
@@ -227,11 +194,11 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 
 	# Computation of the proportion sum based on simulations.
 	for i in range(numberOfSimulations):
-		initialConfiguration = load_initial_configuration_simulations(populationSize, 
+		initialConfiguration = load_initial_configuration_simulations(populationSize,
 							   initialInfectedProportion, initialImmunisedProportion)
 
-		stateProportions = simulate_random_chain_execution(initialConfiguration, adjacencyMatrix, 
-						   populationSize, infectionProbability, healProbability, 
+		stateProportions = simulate_random_chain_execution(initialConfiguration, adjacencyMatrix,
+						   populationSize, infectionProbability, healProbability,
 						   maxInteractionsNumber)
 
 		susceptibleProportions = stateProportions[0]
@@ -243,7 +210,7 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 			if infectedProportions[j] == 0.0:
 				sumInfectedTime += j
 
-		# Resize the array to get the same size repeting the last element 
+		# Resizes the array to get the same size repeting the last element
 		# (corresponding to a stable situation)
 		if(len(susceptibleProportions) < maxTime):
 			for j in range(len(susceptibleProportions), maxTime):
@@ -268,13 +235,15 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 
 	meanInfectedTime = sumInfectedTime / numberOfSimulations
 
-	return [susceptibleMeanProportions, infectedMeanProportions, immunisedMeanProportions, 
+	return [susceptibleMeanProportions, infectedMeanProportions, immunisedMeanProportions,
 		   meanInfectedTime]
 
-# Load an initial configuration with the given infected and immunised proportion.
-def load_initial_configuration_simulations(populationSize, infectedProportion, 
+# ------------------------------------------------------------------------------#
+# Loads an initial configuration with the given infected and immunised proportion.
+# ------------------------------------------------------------------------------#
+def load_initial_configuration_simulations(populationSize, infectedProportion,
 	immunisedProportion):
-	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize * 
+	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize *
 							   (immunisedProportion)))
 
 	initialConfiguration = ['S' for i in range(populationSize)]
@@ -282,7 +251,7 @@ def load_initial_configuration_simulations(populationSize, infectedProportion,
 	for i in range(len(randNumbers)):
 		initialConfiguration[randNumbers[i]] = 'R'
 
-	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize * 
+	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize *
 				  (infectedProportion)))
 
 	for i in range(len(randNumbers)):
