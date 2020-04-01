@@ -205,6 +205,9 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 		infectedProportions = stateProportions[1]
 		immunisedProportions = stateProportions[2]
 
+		# if len(infectedProportions) > 10:
+		# 	print(infectedProportions[9])
+
 		# Computation of the sum of infected time in order to compute the mean of this time.
 		for j in range(len(infectedProportions)):
 			if infectedProportions[j] == 0.0:

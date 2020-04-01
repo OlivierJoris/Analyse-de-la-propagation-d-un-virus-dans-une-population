@@ -24,14 +24,10 @@ fileName = sys.argv[2]
 adjacencyMatrix = file_management.load_square_matrix(fileName, populationSize)
 
 # Asking the user for constant parameters
-initialInfectedProportion = float(input("Initial proportion of infected (fractions not "
-                                          "supported) : "))
-initialImmunisedProportion = float(input("Initial proportion of vaccinated (fractions not "
-                                           "supported) : "))
-infectionProbability = float(input("Probability to be infected (beta in statement, fractions not "
-                                    "supported) : "))
-healProbability = float(input("Probability to be healed (mu in statement, fractions not "
-                               "supported) : "))
+initialInfectedProportion = eval(input("Initial proportion of infected : "))
+initialImmunisedProportion = eval(input("Initial proportion of vaccinated : "))
+infectionProbability = eval(input("Probability to be infected (beta in statement) : "))
+healProbability = eval(input("Probability to be healed (mu in statement) : "))
 maxInteractionsNumber = int(input("Maximum number of interactions for one person "
                                   "(containment mesures): "))
 simulationsNumber = int(input("Number of \"simulations\" for the proportions of S/R/I and the "

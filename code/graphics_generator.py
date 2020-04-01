@@ -18,7 +18,7 @@ def graphic(susceptibleProportion, infectedProportion, curedProportion, maxTime,
 	plt.plot(xAxis, curedProportion, label = "Cured proportion", color = "green")
 	plt.ylabel("Proportion")
 	plt.xlabel("Time (t)")
-	if numberOfSimulations == 0:
+	if numberOfSimulations != 0:
 		plt.title("Evolution based on " + str(numberOfSimulations) + " \"simulations\"")
 	else:
 		plt.title("Evolution of the proportions")
