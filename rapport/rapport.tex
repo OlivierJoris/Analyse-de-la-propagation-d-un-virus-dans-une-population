@@ -189,7 +189,7 @@ $ python3 simulations_study.py populationSize fileName
 $ python3 simulations_study.py 6 6x6_lin.txt 
 \end{lstlisting}
 
-\noindent Le programme demande à l'utilisateur les paramètres que celui-ci souhaite utiliser pour les simulations, on choisit ainsi les valeurs suggérées dans l'énoncé. Ensuite, le script retourne le graphique de la figure 3 ainsi que le temps moyen de disparition des individus infectieux y correspondant\footnote{Etant ici d'environ 45 unités.}. On observe ainsi que l'étude sur base du modèle exact et celle sur base de simulations se ressemble pour le cas où la matrice d'adjacence correspond à $W_{lin}$. Les différences observées peuvent être justifiées par le fait que les simulations n'utilisent pas la matrice de transition donc la précision est plus faible par rapport au modèle exact.
+\noindent Le programme demande à l'utilisateur les paramètres que celui-ci souhaite utiliser pour les simulations, on choisit ainsi les valeurs suggérées dans l'énoncé. Ensuite, le script retourne le graphique de la figure 3 ainsi que le temps moyen de disparition des individus infectieux y correspondant\footnote{Etant ici d'environ 45 unités.}. On observe ainsi que l'étude sur base du modèle exact et celle sur base de simulations coïncident pour le cas où la matrice d'adjacence correspond à $W_{lin}$.
 
 \begin{figure}[H]
 	\centering
@@ -202,7 +202,7 @@ $ python3 simulations_study.py 6 6x6_lin.txt
 $ python3 simulations_study.py 6 6x6_full.txt 
 \end{lstlisting}
 
-\noindent On obtient le graphique de la figure 4 ainsi que le temps moyen de disparition des individus infectieux y correspondant\footnote{Valant ici environ 50 unités.}. On observe que l'étude sur base du modèle exact et celle sur base de simulations se ressemble également dans ce cas de figure\footnote{Comme précédemment, les différences peuvent s'expliquer par le fait que les simulations n'utilisent pas la matrice de transition donc la précision n'est pas la même.}. On peut donc penser que cette simulation approxime de manière satisfaisante la réalité et permettrait ainsi de modéliser cette même simulation avec une population plus nombreuse\footnote{En prenant un nombre de simulations suffisamment grand pour que les calculs soient stables.}.
+\noindent On obtient le graphique de la figure 4 ainsi que le temps moyen de disparition des individus infectieux y correspondant\footnote{Valant ici environ 50 unités.}. On observe que l'étude sur base du modèle exact et celle sur base de simulations coïncident également dans ce cas de figure. On peut donc penser que cette simulation approxime de manière satisfaisante la réalité et permettrait ainsi de modéliser cette même simulation avec une population plus nombreuse\footnote{En prenant un nombre de simulations suffisamment grand pour que les calculs soient stables.}.
 
 \begin{figure}[H]
 	\centering
