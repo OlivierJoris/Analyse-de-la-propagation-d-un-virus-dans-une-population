@@ -81,6 +81,19 @@ def stable_situation(currentState):
 
 	return stableSituation
 
+#------------------------------------------------------------------------------#
+# Returns an array containing every absorbing states based on a list of states.
+# ------------------------------------------------------------------------------#
+def find_absorbing_state(states):
+
+	absorbingStates = []
+
+	for i in range(len(states)):
+		if stable_situation(states[i]):
+			absorbingStates.append(states[i])
+
+	return absorbingStates
+
 # ------------------------------------------------------------------------------#
 # Function which returns the proportions of susceptible people, infected people,
 # and cured people based on the state of the chain.

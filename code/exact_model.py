@@ -48,6 +48,9 @@ sys.stdout.flush()
 # Evaluates the transition matrix (ie replace beta and mu by there value)
 tMatrix = transition_matrix.evaluate_transition_matrix(tMatrix, populationSize, infectionProbability, healProbability)
 
+# Computes the average time require for the complete disappearance of the virus
+averageTime = transition_matrix.find_time_virus_disappearance(tMatrix, populationSize, states)
+
 # ------------------------------------------------------------------------------#
 # SECTION I - Q.3
 # ------------------------------------------------------------------------------#
@@ -56,8 +59,8 @@ sys.stdout.write("Computing evolution of the virus\n")
 sys.stdout.flush()
 
 # Evolution of the virus (Q3 of the assignment)
-time = virus_spread_model.virus_evolution(tMatrix, populationSize, states)
+virus_spread_model.virus_evolution(tMatrix, populationSize, states)
 
-print("It took " + str(time) + " steps of the chain for the virus to completely disappear")
+print("It took " + str(averageTime) + " steps of the chain for the virus to completely disappear")
 
 exit(0)

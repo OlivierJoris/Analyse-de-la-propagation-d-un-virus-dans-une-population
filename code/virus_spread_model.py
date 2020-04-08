@@ -39,15 +39,12 @@ def virus_evolution(tMatrix, populationSize, states):
 	# Temporary transition matrix
 	tmpTMatrix = matrix_power(tMatrix, 0) # Matrice identité
 
-	counter = 0
-
-	# Epsilon machine precision
+	# Until a certain precision is reached
 	while infectedProportion[len(infectedProportion) - 1] > PRECISION:
 		#sys.stdout.write("\rTime step n°%d/%d" % ((a+1), MAX_X))
 		#sys.stdout.flush()
 
 		#print(infectedProportion[len(infectedProportion) - 1])
-		counter+=1
 
 		#P^N = P * (P^(N-1))
 		tmpTMatrix = matrix_product(tMatrix, tmpTMatrix)
@@ -119,7 +116,7 @@ def virus_evolution(tMatrix, populationSize, states):
 
 	graphics_generator.graphic(susceptibleProportion[0:MAX_X], infectedProportion[0:MAX_X], curedProportion[0:MAX_X], MAX_X, 0)
 
-	return counter
+	return
 
 # ------------------------------------------------------------------------------#
 # Simulates a random execution of the Markov chain and returns a list with the
