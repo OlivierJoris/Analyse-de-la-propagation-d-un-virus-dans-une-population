@@ -41,11 +41,6 @@ def virus_evolution(tMatrix, populationSize, states):
 
 	# Until a certain precision is reached
 	while infectedProportion[len(infectedProportion) - 1] > PRECISION:
-		#sys.stdout.write("\rTime step n°%d/%d" % ((a+1), MAX_X))
-		#sys.stdout.flush()
-
-		#print(infectedProportion[len(infectedProportion) - 1])
-
 		#P^N = P * (P^(N-1))
 		tmpTMatrix = matrix_product(tMatrix, tmpTMatrix)
 
@@ -94,10 +89,6 @@ def virus_evolution(tMatrix, populationSize, states):
 		infectedProportion.append(tmpI)
 		curedProportion.append(tmpC)
 
-	#print("len susceptibleProportion = " + str(len(susceptibleProportion)))
-	#print("len infectedProportion = " + str(len(infectedProportion)))
-	#print("len curedProportion = " + str(len(curedProportion)))
-
 	# Resizes the arrays to get the same size repeting the last element
 	if len(susceptibleProportion) < MAX_X:
 		last = susceptibleProportion[len(susceptibleProportion) - 1]
@@ -121,7 +112,7 @@ def virus_evolution(tMatrix, populationSize, states):
 
 # ------------------------------------------------------------------------------#
 # Simulates a random execution of the Markov chain and returns a list with the
-# state proportions at each time (second section).
+# state proportions at each time and a time counter (second section).
 # ------------------------------------------------------------------------------#
 def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, populationSize,
 	infectionProbability, healProbability, maxInteractionsNumber):
@@ -211,14 +202,6 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 		infectedProportions = stateProportions[1]
 		immunisedProportions = stateProportions[2]
 		sumInfectedTime+=stateProportions[3]
-
-		# if len(infectedProportions) > 10:
-		# 	print(infectedProportions[9])
-
-		# Computation of the sum of infected time in order to compute the mean of this time.
-		#for j in range(len(infectedProportions)):
-		#	if infectedProportions[j] == 0.0:
-		#		sumInfectedTime += j
 
 		# Resizes the array to get the same size repeting the last element
 		# (corresponding to a stable situation)

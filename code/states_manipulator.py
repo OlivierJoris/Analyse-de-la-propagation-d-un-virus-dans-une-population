@@ -57,10 +57,6 @@ def find_initial_states(states, populationSize):
 		if numberInfected == 1 and numberCured == 0:
 			initialState.append(states[i])
 
-	#print("All possible initial states :\n")
-	#for i in range(len(initialState)):
-	#	print(initialState[i])
-
 	return initialState
 
 # ------------------------------------------------------------------------------#

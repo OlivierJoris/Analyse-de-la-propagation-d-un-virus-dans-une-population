@@ -35,12 +35,6 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	for i in range(populationSize - 1):
 		states = states_manipulator.compute_states(states)
 
-	#print("Number of differents states = " + str(len(states)) + "\n")
-
-	# Display all the states
-	#for i in range(len(states)):
-	#	print(states[i])
-
 	# Creates an empty transition matrix
 	tMatrix = [[' ' for i in range(len(states))] for i in range(len(states))]
 
@@ -128,30 +122,6 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 			elif isinstance(tmpString, str) and tmpString.endswith('*'):
 				tMatrix[i][j] = tmpString[0:(len(tmpString)-1)]
 
-	# Display the transition matrix
-	#print("   ", end=" ")
-	#b = 0.5
-	#u = 0.2
-	#value = 0
-	#for i in range(len(states)):
-	#	print(states[i], end=" | ")
-	#print("\n")
-	#print(states[4])
-	#for i in range(len(states)):
-	#	print(states[i], end=" | ")
-	#	print(tMatrix[4][i], end=" | ")
-	#	print(eval(str(tMatrix[4][i])))
-	#	value+=(eval(str(tMatrix[4][i])))
-
-	#print("SUM = " + str(value))
-	#for i in range(len(states)):
-	#	print(states[i], end=" | ")
-	#	value = 0
-	#	for j in range(len(states)):
-	#		#print(eval(str(tMatrix[i][j])), end=" | ")
-	#		value+=(eval(str(tMatrix[i][j])))
-	#	print(" | SUM = " + str(value) + "\n")
-
 	return tMatrix
 
 # ------------------------------------------------------------------------------#
@@ -175,7 +145,6 @@ def evaluate_transition_matrix(tMatrix, populationSize, beta, mu):
 
 
 	return temp
-
 
 # ------------------------------------------------------------------------------#
 # Function to compute the time required for the complete disappearance of the

@@ -11,8 +11,8 @@ import sys, random
 import file_management, virus_spread_model, transition_matrix, graphics_generator, states_manipulator
 
 if len(sys.argv) != 3:
-    print("Utilisation du programme : python3 exactct_model.py nombre_d'individus "
-          "fichier_contenant_la_matrice_d'adjacence")
+    print("Utilisation du programme : python3 exact_model.py populationSize "
+          "adjacencyMatrixFileName")
     exit(-1)
 
 random.seed()
