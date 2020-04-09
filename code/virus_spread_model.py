@@ -37,7 +37,7 @@ def virus_evolution(tMatrix, populationSize, states):
 	curedProportion = [0]
 
 	# Temporary transition matrix
-	tmpTMatrix = matrix_power(tMatrix, 0) # Matrice identité
+	tmpTMatrix = matrix_power(tMatrix, 0) # Identity matrix
 
 	# Until a certain precision is reached
 	while infectedProportion[len(infectedProportion) - 1] > PRECISION:
@@ -114,6 +114,7 @@ def virus_evolution(tMatrix, populationSize, states):
 		for i in range(MAX_X - len(curedProportion)):
 			curedProportion.append(last)
 
+	# Display the graphic of proportions
 	graphics_generator.graphic(susceptibleProportion[0:MAX_X], infectedProportion[0:MAX_X], curedProportion[0:MAX_X], MAX_X, 0)
 
 	return
@@ -134,6 +135,8 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 	infectedProportions = []
 	immunisedProportions = []
 	currentInteractionsNumber = 0
+
+	timeCounter = 0
 
 	# Localisation of the infetcted in the population.
 	for i in range(populationSize):
@@ -173,7 +176,9 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 			infectedProportions.append(states_manipulator.states_proportions(currentConfiguration)[1])
 			immunisedProportions.append(states_manipulator.states_proportions(currentConfiguration)[2])
 
-	return [susceptibleProportions, infectedProportions, immunisedProportions]
+		timeCounter+=1
+
+	return [susceptibleProportions, infectedProportions, immunisedProportions, timeCounter]
 
 # ------------------------------------------------------------------------------#
 # Computes the mean of state proportions and the average time for disappearance
@@ -201,14 +206,15 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 		susceptibleProportions = stateProportions[0]
 		infectedProportions = stateProportions[1]
 		immunisedProportions = stateProportions[2]
+		sumInfectedTime+=stateProportions[3]
 
 		# if len(infectedProportions) > 10:
 		# 	print(infectedProportions[9])
 
 		# Computation of the sum of infected time in order to compute the mean of this time.
-		for j in range(len(infectedProportions)):
-			if infectedProportions[j] == 0.0:
-				sumInfectedTime += j
+		#for j in range(len(infectedProportions)):
+		#	if infectedProportions[j] == 0.0:
+		#		sumInfectedTime += j
 
 		# Resizes the array to get the same size repeting the last element
 		# (corresponding to a stable situation)
