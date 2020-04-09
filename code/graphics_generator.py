@@ -19,7 +19,7 @@ def graphic(susceptibleProportion, infectedProportion, curedProportion, maxTime,
 	plt.ylabel("Proportion")
 	plt.xlabel("Time (t)")
 	if numberOfSimulations != 0:
-		plt.title("Evolution based on " + str(numberOfSimulations) + " \"simulations\"")
+		plt.title("Evolution based on " + str(numberOfSimulations) + " simulations")
 	else:
 		plt.title("Evolution of the proportions")
 	plt.legend()

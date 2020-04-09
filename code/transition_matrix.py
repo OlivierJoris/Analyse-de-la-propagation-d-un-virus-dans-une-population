@@ -183,37 +183,36 @@ def evaluate_transition_matrix(tMatrix, populationSize, beta, mu):
 # ------------------------------------------------------------------------------#
 def find_time_virus_disappearance(tMatrix, populationSize, states):
 
+	# Retract all the absorbing states
 	absorbingStates = states_manipulator.find_absorbing_state(states)
 
+	# Matrix B of Ax=B
 	B = [-1 for i in range(len(states))]
 
+	# Matrix A of Ax=B
 	A = [[0 for i in range(len(states))] for i in range(len(states))]
 
+	# Fill A and B
 	for i in range(len(tMatrix)):
 		for j in range(len(tMatrix)):
 
+			# Absorbing states
 			if i == j and states_manipulator.stable_situation(states[i]) and tMatrix[i][j] == 1:
 				B[i] = 0
 				A[i][j] = 1
 				continue
 
+			# Others states
 			if i == j:
 				A[i][j] = tMatrix[i][j] - 1
 				continue
 
 			A[i][j] = tMatrix[i][j]
 
+	# Solving the system Ax=B
 	X = np.linalg.solve(A, B)
 
-	#print("B :")
-	#print(B)
-
-	#print("A :")
-	#for i in range(len(A)):
-	#	print(A[i])
-
-	#print("X :")
-	#print(X)
+	# Find all possible initial states (only one infected)
 	initialStates = states_manipulator.find_initial_states(states, populationSize)
 
 	counter = 0
