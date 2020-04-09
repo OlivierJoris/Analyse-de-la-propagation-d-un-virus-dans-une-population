@@ -196,6 +196,10 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 
 	# Computation of the proportion sum based on simulations.
 	for i in range(numberOfSimulations):
+
+		sys.stdout.write("\rSimulation n°%d/%d" % (i, numberOfSimulations))
+		sys.stdout.flush()
+
 		initialConfiguration = load_initial_configuration_simulations(populationSize,
 							   initialInfectedProportion, initialImmunisedProportion)
 
