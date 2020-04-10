@@ -1,4 +1,4 @@
-# Analayse de la propagation d'un virus au sein d'un réseau
+# Analyse de la propagation d'un virus au sein d'un réseau
 
 ## Bibliothèques externes
 Vous avez besoin des librairies suivantes pour pouvoir utiliser le programme:
