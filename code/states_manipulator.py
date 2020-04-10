@@ -7,7 +7,7 @@
 
 # ------------------------------------------------------------------------------#
 # Function to obtain all the possible states of the chain when adding an
-# individual to the chain originalSequence.
+# individual to the states originalSequence.
 # ------------------------------------------------------------------------------#
 def compute_states(originalSequence):
 
@@ -45,6 +45,7 @@ def find_initial_states(states, populationSize):
 
 	numberInfected = 0
 	numberCured = 0
+
 	for i in range(len(states)):
 		numberInfected = 0
 		numberCured = 0
@@ -62,9 +63,9 @@ def find_initial_states(states, populationSize):
 # ------------------------------------------------------------------------------#
 # Function to determine if the situation of the population is stable or not
 # based on the current state of the population.
-# Return False if there're humains who are still infected and so the situation
+# Returns False if there're humains who are still infected and so the situation
 # 	can still evolve.
-# Else return True.
+# Else returns True.
 # ------------------------------------------------------------------------------#
 def stable_situation(currentState):
 
@@ -78,7 +79,7 @@ def stable_situation(currentState):
 	return stableSituation
 
 #------------------------------------------------------------------------------#
-# Returns an array containing every absorbing states based on a list of states.
+# Returns a list containing every absorbing states based on a list of states.
 # ------------------------------------------------------------------------------#
 def find_absorbing_state(states):
 

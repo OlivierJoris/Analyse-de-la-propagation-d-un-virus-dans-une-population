@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------#
-# Module to get the transition matrix using W (adjacency matrix) and N (the size
-# of the population).
+# Module to get and manipulate the transition matrix using W (adjacency matrix)
+# and N (the size of the population).
 #
 # GOFFART Maxime (180521) & JORIS Olivier (182113)
 # ------------------------------------------------------------------------------#
@@ -26,7 +26,7 @@ def display(tMatrix):
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	if(len(adjacencyMatrix) != populationSize):
-		print("ERROR : adjacency matrix size doesn't match the populaion's size")
+		print("ERROR : adjacency matrix size doesn't match the population's size")
 		return
 
 	states = ['S', 'I', 'R']
@@ -38,21 +38,21 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 	# Creates an empty transition matrix
 	tMatrix = [[' ' for i in range(len(states))] for i in range(len(states))]
 
-	# The first state which is SS is a special case
-
+	# The first state which contains only susceptible people is a special case
+	# (absorbing state)
 	tMatrix[0][0] = 1
 	for i in range(len(states) - 1):
 		tMatrix[0][i+1] = 0
 
-	# Others lines
-
+	# Others lines of the transition matrix
 	for i in range(1, len(states)):
 		sys.stdout.write("\rComputing line n°%d/%d of the transition matrix" % ((i+1), len(states)))
 		sys.stdout.flush()
+
 		state1 = states[i]
 
 		# If the current state (state1) doesn't contained 'I' than we can only stay in the same state
-		# Absorbent state
+		# Absorbing state
 		if 'I' not in state1:
 			for q in range(len(states)):
 				if states[i] == states[q]:
@@ -61,6 +61,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 					tMatrix[i][q] = '0'
 			continue
 
+		# Other cases
 		for j in range(len(states)):
 
 			state2 = states[j]
@@ -89,8 +90,6 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == '1':
 								tmp += '(1-b)*'
-							#elif adjacencyMatrix[l][k] == '0':
-							#	tMatrix[i][j] += '(1)*'
 					if (not(len(tmp) == 0)):
 						if tmp.endswith('*'):
 							tmp = tmp[0:(len(tmp)-1)]
@@ -131,7 +130,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 def evaluate_transition_matrix(tMatrix, populationSize, beta, mu):
 
 	if len(tMatrix) != pow(3, populationSize):
-		print("Error : matrix size is NOT equal to populationSize^3")
+		print("Error : matrix size doesn't match the populationSize")
 		return []
 
 	b = beta
@@ -152,7 +151,11 @@ def evaluate_transition_matrix(tMatrix, populationSize, beta, mu):
 # ------------------------------------------------------------------------------#
 def find_time_virus_disappearance(tMatrix, populationSize, states):
 
-	# Retract all the absorbing states
+	if len(tMatrix) != pow(3, populationSize):
+		print("Error : matrix size doesn't match the populationSize")
+		return -1
+
+	# Retracts all the absorbing states
 	absorbingStates = states_manipulator.find_absorbing_state(states)
 
 	# Matrix B of Ax=B
@@ -181,7 +184,7 @@ def find_time_virus_disappearance(tMatrix, populationSize, states):
 	# Solving the system Ax=B
 	X = np.linalg.solve(A, B)
 
-	# Find all possible initial states (only one infected)
+	# Find all the possible initial states (only one infected)
 	initialStates = states_manipulator.find_initial_states(states, populationSize)
 
 	counter = 0

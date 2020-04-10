@@ -39,8 +39,9 @@ def virus_evolution(tMatrix, populationSize, states):
 	# Temporary transition matrix
 	tmpTMatrix = matrix_power(tMatrix, 0) # Identity matrix
 
-	# Until a certain precision is reached
+	# Until a certain precision is reached, computes the spread of the virus
 	while infectedProportion[len(infectedProportion) - 1] > PRECISION:
+
 		#P^N = P * (P^(N-1))
 		tmpTMatrix = matrix_product(tMatrix, tmpTMatrix)
 
@@ -105,7 +106,7 @@ def virus_evolution(tMatrix, populationSize, states):
 		for i in range(MAX_X - len(curedProportion)):
 			curedProportion.append(last)
 
-	# Display the graphic of proportions
+	# Displays the graphic of proportions
 	graphics_generator.graphic(susceptibleProportion[0:MAX_X], infectedProportion[0:MAX_X], curedProportion[0:MAX_X], MAX_X, 0)
 
 	return
@@ -141,6 +142,7 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 
 	# Simulation of one random execution of the chain.
 	while not(states_manipulator.stable_situation(currentConfiguration)):
+
 		for currentLine in infectedLines:
 			for i in range(populationSize):
 				if adjacencyMatrix[currentLine][i] == '1' and currentInteractionsNumber < maxInteractionsNumber:
@@ -172,8 +174,8 @@ def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, popul
 	return [susceptibleProportions, infectedProportions, immunisedProportions, timeCounter]
 
 # ------------------------------------------------------------------------------#
-# Computes the mean of state proportions and the average time for disappearance
-# of the virus based on the given number of simulations.
+# Computes the mean of state proportions and the average time for the
+# disappearance of the virus based on the given number of simulations.
 # ------------------------------------------------------------------------------#
 def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProbability,
 	healProbability, numberOfSimulations, maxTime, initialInfectedProportion,
@@ -185,7 +187,7 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 
 	sumInfectedTime = 0
 
-	# Computation of the proportion sum based on simulations.
+	# Computation of the proportions sum based on simulations.
 	for i in range(numberOfSimulations):
 
 		sys.stdout.write("\rSimulation n°%d/%d" % ((i+1), numberOfSimulations))
@@ -232,10 +234,11 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 		   meanInfectedTime]
 
 # ------------------------------------------------------------------------------#
-# Loads an initial configuration with the given infected and immunised proportion.
+# Loads an initial state with the given infected and immunised proportions.
 # ------------------------------------------------------------------------------#
 def load_initial_configuration_simulations(populationSize, infectedProportion,
 	immunisedProportion):
+	
 	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize *
 							   (immunisedProportion)))
 

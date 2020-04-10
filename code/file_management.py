@@ -6,27 +6,25 @@
 
 
 # ------------------------------------------------------------------------------#
-# Loads the square matrix (size * size) which is in the file fileName and return
-# the corresponding matrix.
+# Loads the square matrix (size * size) which is in the file fileName and
+# returns the corresponding matrix.
 # ------------------------------------------------------------------------------#
 def load_square_matrix(fileName, size):
 
     matrix = [[0 for i in range(size)] for i in range(size)]
 
-    # Filling of the matrix
+    # Filling the matrix
     with open(fileName, 'r', encoding = 'utf-8') as f:
         for i in range(size):
             for j in range(size):
                 matrix[i][j] = f.read(1)
                 f.read(1)
-            # Display the matrix
-            #     print(matrix[i][j], ',', end = '')
-            # print("\n")
+
     return matrix
 
 # ------------------------------------------------------------------------------#
 # Saves the transition matrix in the file fileName.
-# Used for debugging purposes.
+# Used for debugging purpose.
 # ------------------------------------------------------------------------------#
 def save_matrix(tMatrix, fileName):
 

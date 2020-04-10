@@ -20,10 +20,13 @@ random.seed()
 populationSize = int(sys.argv[1])
 fileName = sys.argv[2]
 
+print("Loading adjacency matrix")
+
 # Loading of the adjacency matrix W (see statement)
 adjacencyMatrix = file_management.load_square_matrix(fileName, populationSize)
 
 # Asking the user for constant parameters (to answer differents questions of the second section)
+print("** fractions supported for proportions & probability **")
 initialInfectedProportion = eval(input("Initial proportion of infected : "))
 initialImmunisedProportion = eval(input("Initial proportion of vaccinated : "))
 infectionProbability = eval(input("Probability to be infected (beta in statement) : "))
@@ -34,15 +37,14 @@ simulationsNumber = int(input("Number of \"simulations\" for the proportions of 
                                   "average time : "))
 maxTime = int(input("Maximum time (x axis of the output graphic) : "))
 
-# Computing the mean of the proportions and the average time for disappearance of the virus based
+# Computing the mean of the proportions and the average time for the disappearance of the virus based
 # on simulations
-
 meanStateProportions = virus_spread_model.compute_mean_proportions_time(adjacencyMatrix,
                        populationSize, infectionProbability, healProbability,
                        simulationsNumber, maxTime, initialInfectedProportion,
                        initialImmunisedProportion, maxInteractionsNumber)
 
-# Displays of the average time for disappearance of the virus
+# Displays the average time for the disappearance of the virus
 meanInfectedTime = meanStateProportions[3]
 print("\nAverage time it takes for the virus to disappear completely : " + str(meanInfectedTime))
 
