@@ -1,7 +1,7 @@
 # ------------------------------------------------------------------------------#
 # Main module for the exact model (section 1 of the assignment).
 #
-# Usage : python3 exactct_model.py <N> <W>
+# Usage : python3 exact_model.py <N> <W>
 #
 # GOFFART Maxime (180521) & JORIS Olivier (182113)
 # ------------------------------------------------------------------------------#
