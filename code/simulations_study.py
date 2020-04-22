@@ -26,7 +26,7 @@ print("Loading adjacency matrix")
 adjacencyMatrix = file_management.load_square_matrix(fileName, populationSize)
 
 # Asking the user for constant parameters (to answer differents questions of the second section)
-print("** fractions supported for proportions & probability **")
+print("** fractions supported for proportions & probabilities **")
 initialInfectedProportion = eval(input("Initial proportion of infected : "))
 initialImmunisedProportion = eval(input("Initial proportion of vaccinated : "))
 infectionProbability = eval(input("Probability to be infected (beta in statement) : "))
