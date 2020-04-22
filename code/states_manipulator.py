@@ -37,7 +37,7 @@ def states_get_index(states, consideredState):
 # ------------------------------------------------------------------------------#
 def find_initial_states(states, populationSize):
 
-	initialState = []
+	initialStates = []
 
 	if len(states) != pow(3, populationSize):
 		print("Error with sizes")
@@ -56,27 +56,24 @@ def find_initial_states(states, populationSize):
 				numberCured+=1
 
 		if numberInfected == 1 and numberCured == 0:
-			initialState.append(states[i])
+			initialStates.append(states[i])
 
-	return initialState
+	return initialStates
 
 # ------------------------------------------------------------------------------#
 # Function to determine if the situation of the population is stable or not
 # based on the current state of the population.
 # Returns False if there're humains who are still infected and so the situation
 # 	can still evolve.
-# Else returns True.
+# Else, returns True.
 # ------------------------------------------------------------------------------#
 def stable_situation(currentState):
 
-	stableSituation = True
-
 	for i in range(len(currentState)):
 		if currentState[i] == 'I':
-			stableSituation = False
-			break
+			return False;
 
-	return stableSituation
+	return True
 
 #------------------------------------------------------------------------------#
 # Returns a list containing every absorbing states based on a list of states.
@@ -104,7 +101,6 @@ def states_proportions(currentState):
 	populationSize = len(currentState)
 
 	for i in range(len(currentState)):
-
 		if currentState[i] == 'S':
 			susceptible+=1
 		elif currentState[i] == 'I':

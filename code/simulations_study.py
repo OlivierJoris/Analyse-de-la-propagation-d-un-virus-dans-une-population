@@ -1,5 +1,5 @@
 # ------------------------------------------------------------------------------#
-# Main module for simulation-based study (section 2 of the assignement).
+# Main module for simulation-based study (section 2 of the assignment).
 #
 # Usage : python3 simulations_study.py <N> <W>
 #

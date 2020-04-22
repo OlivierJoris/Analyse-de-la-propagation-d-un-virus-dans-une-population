@@ -75,9 +75,9 @@ def virus_evolution(tMatrix, populationSize, states):
 					index = states_manipulator.states_get_index(states, currentStates[i])
 					tmp = states_manipulator.states_proportions(states[j])
 
-					tmpSProp = tmpSProp + (tmp[0] * tmpTMatrix[index][j])
-					tmpIProp = tmpIProp + (tmp[1] * tmpTMatrix[index][j])
-					tmpCProp = tmpCProp + (tmp[2] * tmpTMatrix[index][j])
+					tmpSProp+=(tmp[0] * tmpTMatrix[index][j])
+					tmpIProp+=(tmp[1] * tmpTMatrix[index][j])
+					tmpCProp+=(tmp[2] * tmpTMatrix[index][j])
 
 			# Proportions for one line
 			probability = 1 / numberOfStates
@@ -113,7 +113,8 @@ def virus_evolution(tMatrix, populationSize, states):
 
 # ------------------------------------------------------------------------------#
 # Simulates a random execution of the Markov chain and returns a list with the
-# state proportions at each time and a time counter (second section).
+# state proportions at each time and a time counter (second section of the
+# assignment).
 # ------------------------------------------------------------------------------#
 def simulate_random_chain_execution(currentConfiguration, adjacencyMatrix, populationSize,
 	infectionProbability, healProbability, maxInteractionsNumber):
@@ -238,7 +239,7 @@ def compute_mean_proportions_time(adjacencyMatrix, populationSize, infectionProb
 # ------------------------------------------------------------------------------#
 def load_initial_configuration_simulations(populationSize, infectedProportion,
 	immunisedProportion):
-	
+
 	randNumbers = random.sample(range(0, populationSize - 1), int(populationSize *
 							   (immunisedProportion)))
 

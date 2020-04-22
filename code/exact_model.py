@@ -11,7 +11,7 @@ import sys, random
 import file_management, virus_spread_model, transition_matrix, graphics_generator, states_manipulator
 
 if len(sys.argv) != 3:
-    print("Utilisation du programme : python3 exact_model.py populationSize "
+    print("Program usage : python3 exact_model.py populationSize "
           "adjacencyMatrixFileName")
     exit(-1)
 

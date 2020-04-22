@@ -11,22 +11,13 @@ import numpy as np
 import states_manipulator
 
 # ------------------------------------------------------------------------------#
-# Function to display the transition matrix.
-# ------------------------------------------------------------------------------#
-def display(tMatrix):
-	for i in range(len(tMatrix)):
-		for j in range(len(tMatrix)):
-			print(tMatrix[i][j], end=" | ")
-		print("\n")
-
-# ------------------------------------------------------------------------------#
 # Function to compute the transition matrix (as a matrix of strings) based on
 # the graph W and the size of the population.
 # ------------------------------------------------------------------------------#
 def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	if(len(adjacencyMatrix) != populationSize):
-		print("ERROR : adjacency matrix size doesn't match the population's size")
+		print("ERROR : adjacency matrix's size doesn't match the population's size")
 		return
 
 	states = ['S', 'I', 'R']
@@ -40,12 +31,12 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 
 	# The first state which contains only susceptible people is a special case
 	# (absorbing state)
-	tMatrix[0][0] = 1
+	'''tMatrix[0][0] = 1
 	for i in range(len(states) - 1):
-		tMatrix[0][i+1] = 0
+		tMatrix[0][i+1] = 0'''
 
-	# Others lines of the transition matrix
-	for i in range(1, len(states)):
+	# Other lines of the transition matrix
+	for i in range(len(states)):
 		sys.stdout.write("\rComputing line n°%d/%d of the transition matrix" % ((i+1), len(states)))
 		sys.stdout.flush()
 
@@ -90,7 +81,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 						if state1[l] == 'I' and l != k:
 							if adjacencyMatrix[l][k] == '1':
 								tmp += '(1-b)*'
-					if (not(len(tmp) == 0)):
+					if not(len(tmp) == 0):
 						if tmp.endswith('*'):
 							tmp = tmp[0:(len(tmp)-1)]
 						tMatrix[i][j] += ('(1-(' + tmp +'))*')
@@ -112,7 +103,7 @@ def compute_transition_matrix(adjacencyMatrix, populationSize):
 				elif state1[k] == 'R' and state2[k] == 'R':
 					tMatrix[i][j] += '(1)*'
 
-	# Remove the last '*' of each string if necessary
+	# Removes the last '*' of each string if necessary
 	for i in range(len(states)):
 		for j in range(len(states)):
 			tmpString = tMatrix[i][j]
