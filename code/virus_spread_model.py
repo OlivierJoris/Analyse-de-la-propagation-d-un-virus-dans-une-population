@@ -15,10 +15,9 @@ from numpy import finfo as float_info
 # Own files
 import transition_matrix, states_manipulator, graphics_generator
 
-# Precision in infected proportion for considering that the virus completely
-# disappear for the exact model (method virus_evolution)
-#PRECISION = float_info(np.float32).eps # Epsilon machine
-PRECISION = 0.001
+# Difference between two values of infected proportion
+# for considering that the situation is stable
+PRECISION = 10**-4
 
 # Limit of the X axis on the graphic
 MAX_X = 35
@@ -36,11 +35,14 @@ def virus_evolution(tMatrix, populationSize, states):
 	infectedProportion = [1/populationSize]
 	curedProportion = [0]
 
+	proportionInfectedOld = susceptibleProportion[len(susceptibleProportion) - 1]
+	proportionInfectedNew = proportionInfectedOld + 1
+
 	# Temporary transition matrix
 	tmpTMatrix = matrix_power(tMatrix, 0) # Identity matrix
 
 	# Until a certain precision is reached, computes the spread of the virus
-	while infectedProportion[len(infectedProportion) - 1] > PRECISION:
+	while abs(proportionInfectedNew - proportionInfectedOld) > PRECISION:
 
 		#P^N = P * (P^(N-1))
 		tmpTMatrix = matrix_product(tMatrix, tmpTMatrix)
@@ -89,6 +91,11 @@ def virus_evolution(tMatrix, populationSize, states):
 		susceptibleProportion.append(tmpS)
 		infectedProportion.append(tmpI)
 		curedProportion.append(tmpC)
+
+		proportionInfectedOld = proportionInfectedNew
+		proportionInfectedNew = infectedProportion[len(infectedProportion) - 1]
+
+	print("Longueur de susceptibleProportion: " + str(len(susceptibleProportion)))
 
 	# Resizes the arrays to get the same size repeting the last element
 	if len(susceptibleProportion) < MAX_X:
