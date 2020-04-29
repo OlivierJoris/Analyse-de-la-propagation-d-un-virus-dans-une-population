@@ -95,8 +95,6 @@ def virus_evolution(tMatrix, populationSize, states):
 		proportionInfectedOld = proportionInfectedNew
 		proportionInfectedNew = infectedProportion[len(infectedProportion) - 1]
 
-	print("Longueur de susceptibleProportion: " + str(len(susceptibleProportion)))
-
 	# Resizes the arrays to get the same size repeting the last element
 	if len(susceptibleProportion) < MAX_X:
 		last = susceptibleProportion[len(susceptibleProportion) - 1]
